@@ -1,0 +1,27 @@
+{
+  "name": "first-bot",
+  "version": "1.0.0",
+  "description": "A bot for me to learn discord.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AA2K1/botofdreams.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs":{
+    "url": "https://github.com/AA2K1/botofdreams.git"
+  },
+  "homepage": "https://github.com/AA2K1/botofdreams.git#readme",
+  "dependencies": {
+    "ascii-table": "0.0.9",
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
+    "moment": "^2.25.1",
+    "random-puppy": "^1.1.0"
+  }
+}
