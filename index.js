@@ -5,8 +5,8 @@ const client = new Client({
     disableEveryone: true
 });
 
-["commands", "aliases"].forEach(x => client[x] = new Collection());
-["command", "event", "console"].forEach(y => require(`./handler/${y}`)(client));
+["aliases", "commands"].forEach(x => client[x] = new Collection());
+["console", "command", "event"].forEach(y => require(`./handlers/${y}`)(client));
 
 config({
     path: __dirname + "/.env"
