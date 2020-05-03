@@ -3,7 +3,7 @@ module.exports = {
     config: {
         name: "website",
         aliases: [],
-        usage: `${prefix}website`,
+        usage: `~website`,
         category: "info",
         noalias: "N/A",
         description: "Returns link to my website",

@@ -4,7 +4,7 @@ module.exports = {
     config: {
         name: "reddit",
         aliases: ["imagereddit"],
-        usage: `${prefix}reddit imagesubreddit`,
+        usage: `~reddit imagesubreddit`,
         category: "fun",
         description: "Shows an image from any image subreddit.",
     },

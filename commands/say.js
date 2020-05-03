@@ -3,7 +3,7 @@ module.exports = {
     config: {
         name: "say",
         aliases: ["echo", "repeat"],
-        usage: `${prefix}say [embed] message`,
+        usage: `~say [embed] message`,
         category: "info",
         description: "Repeats what user inputs",
 

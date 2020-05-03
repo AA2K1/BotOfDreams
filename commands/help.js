@@ -3,7 +3,7 @@ module.exports = {
     config: {
         name: "help",
         aliases: ["botinfo"],
-        usage: `${prefix}help`,
+        usage: `~help`,
         category: "info",
         description: "Returns list of commands and prefix",
     },

@@ -5,7 +5,7 @@ module.exports = {
     config: {
         name: "meme",
         aliases: ["memes", "maymay"],
-        usage: `${prefix}meme`,
+        usage: `~meme`,
         category: "fun",
         description: "Sends a random dank meme through an embed",
     },

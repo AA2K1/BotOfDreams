@@ -2,7 +2,7 @@ module.exports = {
     config: {
         name: "blip",
         aliases: ["ping"],
-        usage: `${prefix}blip`,
+        usage: `~blip`,
         category: "info",
         description: "Returns latency and API ping",
     

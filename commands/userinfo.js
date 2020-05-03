@@ -4,7 +4,7 @@ module.exports = {
         name: "userinfo",
         aliases: ["info", "aboutme"],
         category: "info",
-        usage: `${prefix}userinfo`,
+        usage: `~userinfo`,
         description: "Returns info about the user that sends the command",
     },
     run: async (message, args, client) => {
