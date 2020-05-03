@@ -61,6 +61,8 @@ client.on("message", async message => {
         case 'reddit':
             client.commands.get('reddit').run(message, args, client);
         break;
+        case 'rps':
+            client.commands.get('rps').run(message, args, client);
 
     }
 });
