@@ -6,6 +6,7 @@ module.exports = {
     config: {
         name: "rps",
         aliases: ["rockpaperscissors"],
+        usage: `${prefix}rps`,
         category: "fun",
         description: "Plays a nice friendly game of rock paper scissors.",
     },

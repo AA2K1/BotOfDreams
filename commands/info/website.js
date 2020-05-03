@@ -3,7 +3,9 @@ module.exports = {
     config: {
         name: "website",
         aliases: [],
+        usage: `${prefix}website`,
         category: "info",
+        noalias: "N/A",
         description: "Returns link to my website",
     },
     run: async (message, args, client) => {
