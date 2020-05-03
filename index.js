@@ -16,27 +16,26 @@ for(const file of commandFiles){
     client.aliases.set(command.aliases, aliases);
 }
 
-
-
-//["aliases", "commands"].forEach(x => client[x] = new Collection());
-//["console", "command", "event"].forEach(y => require(`./handlers/${y}`)(client));
-
+client.on("ready", () => {
+    console.log(`Let us start the game, ${client.user.username}`);
+    client.user.setActivity("memes", {type: "WATCHING"});
+});
 
 client.on('message', message => {
     const prefix = '~';
-    let args = message.content.substring(prefix.length).split(" ");
-    let desiredCommand = command;
-    client.commands.get(desiredCommand).run(message, args, client, prefix);
- 
+    if(message.author.bot || message.channel.type === "dm") return;
+
+    let args = message.content.slice(prefix.length).trim().split(/ +/g);
+    let cmd = args.shift().toLowerCase();
+
+    if(!message.content.startsWith(prefix)) return;
+    let commandfile = bot.commands.get(cmd) || bot.commands.get(bot.aliases.get(cmd))
+    if(commandfile) commandfile.run(bot, message, args)
+    
 });
 
 config({
     path: __dirname + "/.env"
 })
-
-client.on("ready", () => {
-    console.log(`Let us start the game, ${client.user.username}`);
-    client.user.setActivity("memes", {type: "WATCHING"});
-});
 
 client.login(process.env.TOKEN);
