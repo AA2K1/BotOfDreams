@@ -13,7 +13,6 @@ module.exports = {
                 .setColor(0x96fac5)
                 .setDescription(args.slice(1).join(" "))
                 .setTimestamp()
-                .setAuthor(message.author.username, message.author.displayAvatarURL)
                 .setFooter(client.user.username, client.user.displayAvatarURL)
             message.channel.send(embed);
         } else {
