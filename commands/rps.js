@@ -15,14 +15,6 @@ module.exports = {
             let botPick = chooseArr[Math.floor(Math.random() * chooseArr.length)];
             const result = getResult(humanPick, botPick);
 
-            const embed = new MessageEmbed() 
-                .setTitle(`${message.author.username} vs ${client.user.username}`)
-                .addField(`Result: `, `${humanPick} to ${botPick}`)
-                .setDescription(result)
-                .setTimestamp()
-                .setFooter(client.user.username, client.user.displayAvatarURL)
-            message.channel.send(embed);
-            
             function getResult(humanChosenOption, me) {
                 if((me === "rock" && humanChosenOption === "paper") || (me === "paper" && humanChosenOption === "scissors") || (me === "scissors" && humanChosenOption === "rock")) {
                     return `Looks like you win, ${message.author.username}. Not bad.`;
@@ -32,6 +24,14 @@ module.exports = {
                     return `Looks like you lose, ${message.author.username}. You suck.`;
                 }
             }
+
+            const embed = new MessageEmbed() 
+                .setTitle(`${message.author.username} vs ${client.user.username}`)
+                .addField(`Result: `, `${humanPick} to ${botPick}`)
+                .setDescription(result)
+                .setTimestamp()
+                .setFooter(client.user.username, client.user.displayAvatarURL)
+            message.channel.send(embed);
         })
         
     }
