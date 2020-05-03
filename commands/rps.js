@@ -6,7 +6,7 @@ module.exports = {
     name: "rps",
     category: "fun",
     description: "Plays a nice friendly game of rock paper scissors.",
-    run: async (message, args, client) => {
+    execute(message, args, client) {
         if(args.length < 1) {
             return message.reply("Give your choice after ~rps.");
         }
