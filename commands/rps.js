@@ -21,7 +21,8 @@ module.exports = {
                 .setDescription(result)
                 .setTimestamp()
                 .setFooter(client.user.username, client.user.displayAvatarURL)
-
+            message.channel.send(embed);
+            
             function getResult(humanChosenOption, me) {
                 if((me === "rock" && humanChosenOption === "paper") || (me === "paper" && humanChosenOption === "scissors") || (me === "scissors" && humanChosenOption === "rock")) {
                     return `Looks like you win, ${message.author.username}. Not bad.`;
