@@ -8,7 +8,7 @@ module.exports = {
     description: "Plays a nice friendly game of rock paper scissors.",
     run: async (message, args, client) => {
         message.reply("Type rock, paper, or scissors into chat.");
-        const pickCollect = new MessageCollector(message.channel, m => m.author.id == message.author.id);
+        const pickCollect = new MessageCollector(message.channel, m => m.author.id == message.author.id, {time: 10000});
         pickCollect.on('collect', message => {
             let humanPick = message.content;
             //if(humanPick !== 'rock' || humanPick !== 'paper' || humanPick !== 'scissors') return;
