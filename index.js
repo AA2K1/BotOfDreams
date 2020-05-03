@@ -6,7 +6,7 @@ const client = new Client({
 });
 
 ["commands", "aliases"].forEach(x => client[x] = new Collection());
-["command", "event", "message"].forEach(x => require(`./handler/${x}`)(client));
+["command", "event"].forEach(x => require(`./handler/${x}`)(client));
 
 config({
     path: __dirname + "/.env"
