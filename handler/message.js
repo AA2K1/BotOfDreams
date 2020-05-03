@@ -1,4 +1,4 @@
-module.exports = async (message, client) => {
+module.exports = async (client, message) => {
     const prefix = '~';
     const messageArray = message.content.split(" ");
     const args = messageArray.slice(1);//message.content.slice(1).trim().split(/ +/g);
