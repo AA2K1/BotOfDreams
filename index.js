@@ -5,8 +5,28 @@ const client = new Client({
     disableEveryone: true
 });
 
-["aliases", "commands"].forEach(x => client[x] = new Collection());
-["console", "command", "event"].forEach(y => require(`./handlers/${y}`)(client));
+
+const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
+for(const file of commandFiles){
+    const command = require(`./commands/${file}`);
+    const aliases = require(`./commands/${file}`)
+    client.commands.set(command.name, command);
+    client.aliases.set(command.aliases, aliases);
+}
+
+
+
+//["aliases", "commands"].forEach(x => client[x] = new Collection());
+//["console", "command", "event"].forEach(y => require(`./handlers/${y}`)(client));
+
+
+client.on('message', message => {
+    const prefix = '~';
+    let args = message.content.substring(prefix.length).split(" ");
+    let desiredCommand = command;
+    client.commands.get(desiredCommand).run(message, args, client, prefix);
+ 
+});
 
 config({
     path: __dirname + "/.env"
