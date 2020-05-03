@@ -6,7 +6,7 @@ const client = new Client({
 });
 
 ["commands", "aliases"].forEach(x => client[x] = new Collection());
-["command", "event", "message"].forEach(x => require(`./handler/${x}`)(client))
+["command", "event", "message"].forEach(x => require(`./handler/${x}`)(client));
 
 config({
     path: __dirname + "/.env"
@@ -14,7 +14,7 @@ config({
 
 client.on("ready", () => {
     console.log(`Let us start the game, ${client.user.username}`);
-    client.user.setActivity("memes", {type: "WATCHING"})
+    client.user.setActivity("memes", {type: "WATCHING"});
 });
 
 client.login(process.env.TOKEN);
