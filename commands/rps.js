@@ -21,7 +21,7 @@ module.exports = {
             .setTimestamp()
             .setFooter(client.user.username, client.user.displayAvatarURL)
             .setTitle(`${message.author.username} vs ${client.user.username}`)
-            .addField(` `, `You: ${humanPick} to Me: ${botPick}`)
+            .addField(`--------------------------------------------------------------------------------`, `You: ${humanPick} to Me: ${botPick}`)
             .setDescription(getWinner(botPick, humanPick))
         message.channel.send(embed)
 
