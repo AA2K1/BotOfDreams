@@ -12,5 +12,4 @@ module.exports = async (message, content) => {
 
     let commandfile = client.commands.get(cmd) || client.comands.get(client.aliases.get(cmd));
     if(commandfile) commandfile.run(message, args, client);
-
 }
