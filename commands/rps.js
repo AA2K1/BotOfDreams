@@ -21,17 +21,17 @@ module.exports = {
             .setTimestamp()
             .setFooter(client.user.username, client.user.displayAvatarURL)
             .setTitle(`${message.author.username} vs ${client.user.username}`)
-            .addField(`---------------------------------------------------------------------------`, `You: ${humanPick} to Me: ${botPick}`)
+            .addField(`You: ${humanPick} to Me: ${botPick}`, `---------------------------------------------------------------------------`)
             .setDescription(getWinner(botPick, humanPick))
         message.channel.send(embed)
 
         function getWinner(botOption, humanOption) {
             if(botOption === humanOption) {
-                return `Looks like it's a tie ${message.author.username}. Well played.`
+                return `Looks like it's a tie, ${message.author.username}. Well played.`
             } else if((botOption === 'rock' && humanOption === 'paper') || (botOption === 'paper' && humanOption === 'scissors') || (botOption === 'scissors' && humanOption === 'rock')) {
-                return `Looks like you won ${message.author.username}. That was just luck.`
+                return `Looks like you won, ${message.author.username}. That was just luck.`
             } else if((botOption === 'rock' && humanOption === 'scissors') || (botOption === 'paper' && humanOption === 'rock') || (botOption === 'scissors' && humanOption === 'paper')) {
-                return `Looks like I win ${message.author.username}. Easy win, you suck.`
+                return `Looks like I win, ${message.author.username}. Easy win, you suck.`
             }
         }
     }
