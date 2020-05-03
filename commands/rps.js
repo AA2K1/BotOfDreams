@@ -26,6 +26,7 @@ module.exports = {
             }
 
             const embed = new MessageEmbed() 
+                .setColor(0x96fac5)
                 .setTitle(`${message.author.username} vs ${client.user.username}`)
                 .addField(`Result: `, `${humanPick} to ${botPick}`)
                 .setDescription(result)
