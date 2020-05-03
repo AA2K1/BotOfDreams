@@ -14,7 +14,7 @@ module.exports = {
             return message.reply("Your choices are: rock, paper, or scissors.");
         }
         const humanPick = args[0];
-        const botPick = chooseArr[Math.floor((Math.random() * replies.length))];
+        const botPick = chooseArr[Math.floor((Math.random() * chooseArr.length))];
 
         const embed = new MessageEmbed() 
             .setColor(0x96fac5)
