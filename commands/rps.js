@@ -11,7 +11,7 @@ module.exports = {
         const pickCollect = new MessageCollector(message.channel, m => m.author.id == message.author.id);
         pickCollect.on('collect', message => {
             let humanPick = message.content;
-            if(humanPick !== 'rock' || humanPick !== 'paper' || humanPick !== 'scissors') return;
+            //if(humanPick !== 'rock' || humanPick !== 'paper' || humanPick !== 'scissors') return;
             let botPick = chooseArr[Math.floor(Math.random() * chooseArr.length)];
             const result = getResult(humanPick, botPick);
 
