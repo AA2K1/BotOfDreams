@@ -22,7 +22,7 @@ module.exports = {
                         .setDescription(`Looks like you win, ${message.author.username}. Not bad.`)
                         .setTimestamp()
                         .setFooter(client.user.username, client.user.displayAvatarURL)
-                    message.channel.send(embed);
+                    return message.channel.send(embed);
                 } else if(me === humanChosenOption) {
                     const embed1 = new MessageEmbed() 
                         .setTitle(`${message.author.username} vs ${client.user.username}`)
@@ -30,7 +30,7 @@ module.exports = {
                         .setDescription(`Looks like it's a tie.`)
                         .setTimestamp()
                         .setFooter(client.user.username, client.user.displayAvatarURL)
-                    message.channel.send(embed1);
+                    return message.channel.send(embed1);
                 } else {
                     const embed2 = new MessageEmbed() 
                         .setTitle(`${message.author.username} vs ${client.user.username}`)
@@ -38,7 +38,7 @@ module.exports = {
                         .setDescription(`Looks like you lose, ${message.author.username}. You suck.`)
                         .setTimestamp()
                         .setFooter(client.user.username, client.user.displayAvatarURL)
-                    message.channel.send(embed2);
+                    return message.channel.send(embed2);
                 }
             }
         })
