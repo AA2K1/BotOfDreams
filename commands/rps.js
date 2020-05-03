@@ -18,7 +18,7 @@ module.exports = {
                 if((me === "rock" && humanChosenOption === "paper") || (me === "paper" && humanChosenOption === "scissors") || (me === "scissors" && humanChosenOption === "rock")) {
                     const embed = new MessageEmbed() 
                         .setTitle(`${message.author.username} vs ${client.user.username}`)
-                        .addField(`Result: ${humanChosenOption} to ${me}`)
+                        .addField(`Result: `, `${humanChosenOption} to ${me}`)
                         .setDescription(`Looks like you win, ${message.author.username}. Not bad.`)
                         .setTimestamp()
                         .setFooter(client.user.username, client.user.displayAvatarURL)
@@ -26,7 +26,7 @@ module.exports = {
                 } else if(me === humanChosenOption) {
                     const embed1 = new MessageEmbed() 
                         .setTitle(`${message.author.username} vs ${client.user.username}`)
-                        .addField(`Result: ${humanChosenOption} to ${me}`)
+                        .addField(`Result: `, `${humanChosenOption} to ${me}`)
                         .setDescription(`Looks like it's a tie.`)
                         .setTimestamp()
                         .setFooter(client.user.username, client.user.displayAvatarURL)
@@ -34,7 +34,7 @@ module.exports = {
                 } else {
                     const embed2 = new MessageEmbed() 
                         .setTitle(`${message.author.username} vs ${client.user.username}`)
-                        .addField(`Result: ${humanChosenOption} to ${me}`)
+                        .addField(`Result: `, `${humanChosenOption} to ${me}`)
                         .setDescription(`Looks like you lose, ${message.author.username}. You suck.`)
                         .setTimestamp()
                         .setFooter(client.user.username, client.user.displayAvatarURL)
