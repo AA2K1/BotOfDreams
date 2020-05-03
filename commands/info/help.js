@@ -1,10 +1,14 @@
 const { MessageEmbed } = require('discord.js');
 module.exports = {
-    name: "help",
-    category: "info",
-    description: "Returns list of commands and prefix",
-    execute(message, args, client, prefix) {
-        const embed = new MessageEmbed() 
+    config: {
+        name: "help",
+        aliases: ["botinfo"],
+        category: "info",
+        description: "Returns list of commands and prefix",
+    },
+
+    run: async (message, args, client, prefix) => {
+        const embed = new MessageEmbed()
             .setColor(0x96fac5)
             .setAuthor(client.user.username, client.user.displayavatarURL)
             .setTitle("Command List")
@@ -24,3 +28,4 @@ module.exports = {
         message.channel.send(embed);
     }
 }
+

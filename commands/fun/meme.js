@@ -1,9 +1,13 @@
 const { MessageEmbed } = require('discord.js');
 const randomPuppy = require('random-puppy');
+
 module.exports = {
-    name: "meme",
-    category: "fun",
-    description: "Sends a random dank meme through an embed",
+    config: {
+        name: "meme",
+        aliases: ["memes", "maymay"],
+        category: "fun",
+        description: "Sends a random dank meme through an embed",
+    },
     run: async (message, args, client) => {
         if (args.length < 1) {
             const subReddits = ["dankmemes", "xkcd", "me_irl", "meme", "dankmeme", "cursedcomments", "cursedimages", "blursedimages"];
@@ -23,3 +27,4 @@ module.exports = {
         }
     }
 }
+
