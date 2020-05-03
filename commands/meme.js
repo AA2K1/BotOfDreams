@@ -15,6 +15,8 @@ module.exports = {
                 .setImage(img)
                 .setTitle(`From /r/${random}`)
                 .setURL(`https://www.reddit.com/r/${random}/`)
+                .setTimestamp()
+                .setFooter(client.user.username, client.user.displayAvatarURL)
             message.channel.send(embed);
         } else {
             message.reply("ERROR: Cannot input subreddit name. For that, use ~reddit.")

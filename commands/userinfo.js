@@ -16,6 +16,8 @@ module.exports = {
         const embed = new MessageEmbed()
             .setAuthor(user.tag, userinfo.avatar)
             .setThumbnail(userinfo.avatar)
+            .setTimestamp()
+            .setFooter(client.user.username, client.user.displayAvatarURL)
             .addField(`Username`, userinfo.name, true)
             .addField(`ID`, userinfo.id, true)
             .addField(`Status`, userinfo.status, true)

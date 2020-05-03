@@ -7,44 +7,32 @@ module.exports = {
     category: "fun",
     description: "Plays a nice friendly game of rock paper scissors.",
     run: async (message, args, client) => {
-        const embed = new RichEmbed()
-            .setColor("#ffffff")
-            .setFooter(message.guild.me.displayName, client.user.displayAvatarURL)
-            .setDescription("Add a reaction to one of these emojis to play the game!")
-            .setTimestamp();
+        if(args.length < 1) {
+            return message.reply("Give your choice after ~rps.");
+        }
+        if(!chooseArr.includes(args[0])) {
+            return message.reply("Your choices are: rock, paper, or scissors.");
+        }
+        const humanPick = args[0];
+        const botPick = chooseArr[Math.floor((Math.random() * replies.length))];
 
-        const m = await message.channel.send(embed);
-        const reacted = await promptMessage(m, message.author, 30, chooseArr);
-        const botChoice = chooseArr[Math.floor(Math.random() * chooseArr.length)];
-        const result = await getResult(reacted, botChoice);
-        await m.clearReactions();
+        const embed = new MessageEmbed() 
+            .setColor(0x96fac5)
+            .setTimestamp()
+            .setFooter(client.user.username, client.user.displayAvatarURL)
+            .setTitle(`${message.author.username} vs ${client.user.username}`)
+            .addField(`You: ${humanPick} to Me: ${botPick}`)
+            .setDescription(getWinner(botPick, humanPick))
+        message.channel.send(embed)
 
-        embed
-            .setDescription("")
-            .addField(result, `${reacted} vs ${botChoice}`);
-
-        m.edit(embed);
-
-        function getResult(me, clientChosen) {
-            if ((me === "🗻" && clientChosen === "✂") ||
-                (me === "📰" && clientChosen === "🗻") ||
-                (me === "✂" && clientChosen === "📰")) {
-                    return "You won!";
-            } else if (me === clientChosen) {
-                return "It's a tie!";
-            } else {
-                return "You lost!";
+        function getWinner(botOption, humanOption) {
+            if(botOption === humanOption) {
+                return `Looks like it's a tie ${message.author.username}. Well played.`
+            } else if((botOption === 'rock' && humanOption === 'paper') || (botOption === 'paper' && humanOption === 'scissors') || (botOption === 'scissors' && humanOption === 'rock')) {
+                return `Looks like you won ${message.author.username}. That was just luck.`
+            } else if((botOption === 'rock' && humanOption === 'scissors') || (botOption === 'paper' && humanOption === 'rock') || (botOption === 'scissors' && humanOption === 'paper')) {
+                return `Looks like I win ${message.author.username}. Easy win, you suck.`
             }
         }
-        
-    },
-
-    promptMessage: async function (message, author, time, validReactions) {
-        time *= 1000;
-        for (const reaction of validReactions) await message.react(reaction);
-        const filter = (reaction, user) => validReactions.includes(reaction.emoji.name) && user.id === author.id;
-        return message
-            .awaitReactions(filter, { max: 1, time: time})
-            .then(collected => collected.first() && collected.first().emoji.name);
     }
 }
