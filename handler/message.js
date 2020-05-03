@@ -1,6 +1,6 @@
 module.exports = async (message, client) => {
     const prefix = '~';
-    const args = message.content.split(prefix.length).trim().split(/ +/g);
+    const args = message.content.slice(1).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();
 
     if (message.author.bot) return;
