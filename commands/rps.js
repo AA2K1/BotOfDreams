@@ -12,7 +12,7 @@ module.exports = {
         pickCollect.on('collect', message => {
             let humanPick = message.content;
             let botPick = chooseArr[Math.floor(Math.random() * chooseArr.length)];
-            const result = await getResult(humanPick, botPick);
+            const result = getResult(humanPick, botPick);
 
             function getResult(humanChosenOption, me) {
                 if((me === "rock" && humanChosenOption === "paper") || (me === "paper" && humanChosenOption === "scissors") || (me === "scissors" && humanChosenOption === "rock")) {
