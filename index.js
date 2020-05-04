@@ -29,7 +29,7 @@ client.on('message', message => {
     let cmd = args.shift().toLowerCase();
 
     let commandfile = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
-    switch(cmd) {
+    switch(args[0]) {
         case 'blip':
             client.commands.get('blip').run(message, args, client, prefix);
         break;
