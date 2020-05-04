@@ -5,7 +5,6 @@ module.exports = {
         aliases: ["aa2k", "site"],
         usage: `~website`,
         category: "info",
-        noalias: "N/A",
         description: "Returns link to my website",
     },
     run: async (message, args, client, prefix) => {
