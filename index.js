@@ -53,7 +53,7 @@ client.on("message", async message => {
             client.commands.get('website').execute(message, args, client);    
         break;
         case 'help' || 'botinfo':
-            client.commands.get('help').execute(message, args, client, prefix);
+            client.commands.get('help').run(message, args, client, prefix);
         break;
         case 'meme' || 'randommeme' || 'maymay':
             client.commands.get('meme').run(message, args, client);
