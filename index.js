@@ -18,7 +18,7 @@ for(const file of commandFiles){
 
 client.on("ready", () => {
     console.log(`Let us start the game, ${client.user.username}`);
-    client.user.setActivity("memes on /r/okbuddyretard", {type: "WATCHING"});
+    //client.user.setActivity("memes on /r/okbuddyretard", {type: "WATCHING"});
 });
 
 client.on('message', message => {
