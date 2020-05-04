@@ -29,7 +29,31 @@ client.on('message', message => {
     let cmd = args.shift().toLowerCase();
 
     let commandfile = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
-    if(commandfile) commandfile.run(message, args, client, prefix);
+    switch(cmd) {
+        case 'blip' || client.commands.get('blip').aliases:
+            client.commands.get('blip').run(message, args, client, prefix);
+        break;
+        case 'help' || client.commands.get('help').aliases:
+            client.commands.get('help').run(message, args, client, prefix);
+        break;
+        case 'meme' || client.commands.get('meme').aliases:
+            client.commands.get('meme').run(message, args, client, prefix);
+        break;
+        case 'reddit' || client.commands.get('reddit').aliases:
+            client.commands.get('reddit').run(message, args, client, prefix);
+        break;
+        case 'rps' || client.commands.get('rps').aliases:
+            client.commands.get('rps').run(message, args, client, prefix);
+        break;
+        case 'say' || client.commands.get('say').aliases:
+            client.commands.get('say').run(message, args, client, prefix);
+        break;
+        case 'userinfo' || client.commands.get('userinfo').aliases:
+            client.commands.get('userinfo').run(message, args, client, prefix);
+        break;
+        case 'website' || client.commands.get('website').aliases:
+            client.commands.get('website').run(message, args, client, prefix);
+    }
     
 });
 
