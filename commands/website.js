@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
     config: {
         name: "website",
-        aliases: [],
+        aliases: ["aa2k", "site"],
         usage: `~website`,
         category: "info",
         noalias: "N/A",
