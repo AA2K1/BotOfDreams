@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 module.exports = {
     name: "website",
+    aliases: ["aa2k", ""],
     category: "info",
     description: "Returns link to my website",
     execute(message, args, client) {

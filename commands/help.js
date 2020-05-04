@@ -1,10 +1,22 @@
 const { MessageEmbed } = require('discord.js');
 module.exports = {
     name: "help",
+    aliases: ["botinfo"],
     category: "info",
     description: "Returns list of commands and prefix",
     run: async (message, args, client, prefix) => {
-        if (args[0] == "help") return message.reply(`Just send ${prefix}help instead, dumb-dumb.`);
+        if (args[0] == "help") return message.reply(`Just send ${prefix}help instead, dumb-dumb. Or specify a command that's not help dumb-dumb.`);
+
+        if(args[0]) {
+            let embed = new MessageEmbed()
+                .setColor(0xd65a94)
+                .setAuthor(`${client.user.username} Help`, client.user.displayavatarURL)
+                .setThumbnail(client.user.displayavatarURL)
+                .setTimestamp()
+                .setFooter(client.user.username, client.user.displayAvatarURL)
+                .setDescription(`***Command:*** ${client.commands.get(args[0]).name}\n ***Category: *** ${client.commands.get(args[0]).category}\n ***Description*** ${client.commands.get(args[0]).description}\n ***Aliases*** ${client.commands.get(args[0]).aliases}`)
+            message.channel.send(embed).then(m => m.delete(20000))
+        } else {
         let embed1 = new MessageEmbed()
             .setColor(0x96fac5)
             .setAuthor(`${client.user.username} Help`, client.user.displayavatarURL)
@@ -24,6 +36,7 @@ module.exports = {
             .addField("Reddit", "Shows a post from any image subreddit in randompuppy. Arguments must be in all lowercase.")
             .addField("RPS", "Plays a nice, friendly game of rock paper scissors. Use arguments to pick your choice.")
         message.channel.send(embed1).then(m => m.delete(20000))
+        }
     }
 }
 

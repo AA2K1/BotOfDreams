@@ -3,10 +3,11 @@ const randomPuppy = require('random-puppy');
 module.exports = {
     name: "meme",
     category: "fun",
+    aliases: ["maymay", "randommeme"],
     description: "Sends a random dank meme through an embed",
     run: async (message, args, client) => {
         if (args.length < 1) {
-            const subReddits = ["dankmemes", "xkcd", "me_irl", "meme", "dankmeme", "cursedcomments", "cursedimages", "blursedimages"];
+            const subReddits = ["dankmemes", "xkcd", "me_irl", "meme", "dankmeme", "cursedcomments", "cursedimages", "blursedimages", "neverbrokeabone", "neverbrokenabone"];
             const random = subReddits[Math.floor(Math.random() * subReddits.length)];
             message.channel.send("Your juicy meme, sir.");
             const img = await randomPuppy(random);

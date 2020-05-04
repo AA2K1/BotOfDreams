@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 module.exports = {
     name: "say",
+    aliases: ["echo", "repeat"],
     category: "info",
     description: "Repeats what user inputs",
     execute(message, args, client) {

@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 module.exports = {
     name: "userinfo",
+    aliases: ["aboutme"],
     category: "info",
     description: "Returns info about the user that sends the command",
     execute(message, args, client) {

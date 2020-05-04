@@ -1,12 +1,12 @@
 const { Client, MessageEmbed, Collection } = require("discord.js");
 const { config } = require("dotenv");
 const fs = require('fs');
+const coins = require('./coins.json');
 const client = new Client({
     disableEveryone: true
 });
 
 client.commands = new Collection();
-
 
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -39,6 +39,25 @@ client.on("message", async message => {
     if (!message.member) message.member = await message.guild.fetchMember(message);
     if(cmd.length === 0) return;
 
+    if(!coins[message.author.id]) {
+        coins[message.author.id] = {
+            coins: 0
+        };
+    }
+
+    let coinAmt = Math.floor(Math.random() * 50) + 1;
+    let baseAmt = Math.floor(Math.random() * 50) + 1;
+    console.log(`${coinAmt}:${baseAmt}`);
+
+    if(coinAmt === baseAmt) {
+        coins[message.author.id] = {
+            coins: coins[message.author.id].coins + coinAmt
+        };
+        fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
+            if (err) console.log(err)
+        });
+    }
+ 
     switch(cmd) {
         case 'blip' || 'ping':
             client.commands.get('blip').execute(message, args, client);
@@ -49,7 +68,7 @@ client.on("message", async message => {
         case 'userinfo' || 'aboutme':
             client.commands.get('userinfo').execute(message, args, client);
         break;
-        case 'website': 
+        case 'website' || 'aa2k': 
             client.commands.get('website').execute(message, args, client);    
         break;
         case 'help' || 'botinfo':

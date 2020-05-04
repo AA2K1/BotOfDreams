@@ -4,6 +4,7 @@ const chooseArr = ['rock', 'paper', 'scissors'];
 
 module.exports = {
     name: "rps",
+    aliases: ["rockpaperscissors"],
     category: "fun",
     description: "Plays a nice friendly game of rock paper scissors.",
     execute(message, args, client) {
