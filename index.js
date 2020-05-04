@@ -53,6 +53,7 @@ client.on('message', message => {
         break;
         case 'website':
             client.commands.get('website').run(message, args, client, prefix);
+        break;
     }
     
 });
