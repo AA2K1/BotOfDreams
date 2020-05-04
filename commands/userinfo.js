@@ -7,7 +7,7 @@ module.exports = {
         usage: `~userinfo`,
         description: "Returns info about the user that sends the command",
     },
-    run: async (message, args, client, prefix) => {
+    execute(message, args, client, prefix) {
         let user = message.mentions.users.first() || message.author;
 
         let userinfo = {};

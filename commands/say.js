@@ -9,7 +9,7 @@ module.exports = {
 
     },
 
-    run: async (message, args, client, prefix) => {
+    execute(message, args, client, prefix) {
         if (args.length < 1) {
             return (message.reply("Kinda hard to say something if you didn't tell me what to say."));
         }

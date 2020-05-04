@@ -7,7 +7,7 @@ module.exports = {
         category: "info",
         description: "Returns link to my website",
     },
-    run: async (message, args, client, prefix) => {
+    execute(message, args, client, prefix) {
         const embed1 = new MessageEmbed()
             .setTitle('Website: ')
             .setDescription('https://aa2k.netlify.app/')
