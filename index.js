@@ -40,28 +40,28 @@ client.on("message", async message => {
     if(cmd.length === 0) return;
 
     switch(cmd) {
-        case 'blip':
+        case 'blip' || 'ping':
             client.commands.get('blip').execute(message, args, client);
         break;
-        case 'say':
+        case 'say' || 'echo' || 'repeat':
             client.commands.get('say').execute(message, args, client);
         break;
-        case 'userinfo':
+        case 'userinfo' || 'aboutme':
             client.commands.get('userinfo').execute(message, args, client);
         break;
         case 'website': 
             client.commands.get('website').execute(message, args, client);    
         break;
-        case 'help':
+        case 'help' || 'botinfo':
             client.commands.get('help').execute(message, args, client, prefix);
         break;
-        case 'meme':
+        case 'meme' || 'randommeme' || 'maymay':
             client.commands.get('meme').run(message, args, client);
         break;
-        case 'reddit':
+        case 'reddit' || 'imagereddit':
             client.commands.get('reddit').run(message, args, client);
         break;
-        case 'rps':
+        case 'rps' || 'rockpaperscissors':
             client.commands.get('rps').execute(message, args, client);
 
     }
