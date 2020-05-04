@@ -31,10 +31,10 @@ client.on('message', message => {
     let commandfile = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
     switch(args[0]) {
         case 'blip':
-            client.commands.get('blip').run(message, args, client, prefix);
+            client.commands.get('blip').execute(message, args, client, prefix);
         break;
         case 'help':
-            client.commands.get('help').run(message, args, client, prefix);
+            client.commands.get('help').execute(message, args, client, prefix);
         break;
         case 'meme':
             client.commands.get('meme').run(message, args, client, prefix);
@@ -43,16 +43,16 @@ client.on('message', message => {
             client.commands.get('reddit').run(message, args, client, prefix);
         break;
         case 'rps':
-            client.commands.get('rps').run(message, args, client, prefix);
+            client.commands.get('rps').execute(message, args, client, prefix);
         break;
         case 'say':
-            client.commands.get('say').run(message, args, client, prefix);
+            client.commands.get('say').execute(message, args, client, prefix);
         break;
         case 'userinfo':
-            client.commands.get('userinfo').run(message, args, client, prefix);
+            client.commands.get('userinfo').execute(message, args, client, prefix);
         break;
         case 'website':
-            client.commands.get('website').run(message, args, client, prefix);
+            client.commands.get('website').execute(message, args, client, prefix);
         break;
     }
     
