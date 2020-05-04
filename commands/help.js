@@ -1,14 +1,10 @@
 const { MessageEmbed } = require('discord.js');
 module.exports = {
-    config: {
-        name: "help",
-        category: "info",
-        description: "Returns list of commands and prefix",
-    },
-
+    name: "help",
+    category: "info",
+    description: "Returns list of commands and prefix",
     run: async (message, args, client, prefix) => {
-        if (args[0] == "help") return message.reply(`Just send ${prefix}help instead, dumb-dumb.`)
-
+        if (args[0] == "help") return message.reply(`Just send ${prefix}help instead, dumb-dumb.`);
         let embed1 = new MessageEmbed()
             .setColor(0x96fac5)
             .setAuthor(`${client.user.username} Help`, client.user.displayavatarURL)
