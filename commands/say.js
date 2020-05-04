@@ -1,18 +1,13 @@
 const { MessageEmbed } = require('discord.js');
 module.exports = {
-    config: {
-        name: "say",
-        aliases: ["echo", "repeat"],
-        usage: `~say [embed] message`,
-        category: "info",
-        description: "Repeats what user inputs",
-
-    },
-
-    execute(message, args, client, prefix) {
+    name: "say",
+    category: "info",
+    description: "Repeats what user inputs",
+    execute(message, args, client) {
         if (args.length < 1) {
             return (message.reply("Kinda hard to say something if you didn't tell me what to say."));
         }
+        
         if (args[0] === "embed") {
             const embed = new MessageEmbed()
                 .setColor(0x96fac5)
@@ -25,4 +20,3 @@ module.exports = {
         }
     }
 }
-

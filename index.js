@@ -6,60 +6,67 @@ const client = new Client({
 });
 
 client.commands = new Collection();
-//client.aliases = new Collection();
+
+
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
     const command = require(`./commands/${file}`);
-    //const aliases = require(`./commands/${file}`);
+ 
     client.commands.set(command.name, command);
-    //client.aliases.set(command.aliases, aliases);
 }
+
+config({
+    path: __dirname + "/.env"
+})
 
 client.on("ready", () => {
     console.log(`Let us start the game, ${client.user.username}`);
-    //client.user.setActivity("memes on /r/okbuddyretard", {type: "WATCHING"});
 });
 
-client.on('message', message => {
-    const prefix = '~';
-    if(message.author.bot) return;
-    if(!message.content.startsWith(prefix)) return;
-    let args = message.content.slice(prefix.length).trim().split(/ +/g);
-    let cmd = args.shift().toLowerCase();
+client.on("message", async message => {
+    console.log(`${message.author.username} said ${message.content} at ${message.createdAt}`);
+})
 
-    //let commandfile = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
-    switch(args[0]) {
+client.on("message", async message => {
+    const prefix = '~'
+    const args = message.content.slice(prefix.length).trim().split(/ +/g);
+    const cmd = args.shift().toLowerCase();
+
+    if (message.author.bot) return;
+    if (!message.guild) return;
+    if (!message.content.startsWith(prefix)) return;
+    if (!message.member) message.member = await message.guild.fetchMember(message);
+    if(cmd.length === 0) return;
+
+    switch(cmd) {
         case 'blip':
-            client.commands.get('blip').execute(message, args, client, prefix);
+            client.commands.get('blip').execute(message, args, client);
+        break;
+        case 'say':
+            client.commands.get('say').execute(message, args, client);
+        break;
+        case 'userinfo':
+            client.commands.get('userinfo').execute(message, args, client);
+        break;
+        case 'website': 
+            client.commands.get('website').execute(message, args, client);    
         break;
         case 'help':
             client.commands.get('help').execute(message, args, client, prefix);
         break;
         case 'meme':
-            client.commands.get('meme').run(message, args, client, prefix);
+            client.commands.get('meme').run(message, args, client);
         break;
         case 'reddit':
-            client.commands.get('reddit').run(message, args, client, prefix);
+            client.commands.get('reddit').run(message, args, client);
         break;
         case 'rps':
-            client.commands.get('rps').execute(message, args, client, prefix);
-        break;
-        case 'say':
-            client.commands.get('say').execute(message, args, client, prefix);
-        break;
-        case 'userinfo':
-            client.commands.get('userinfo').execute(message, args, client, prefix);
-        break;
-        case 'website':
-            client.commands.get('website').execute(message, args, client, prefix);
-        break;
+            client.commands.get('rps').execute(message, args, client);
+
     }
-    
 });
 
-config({
-    path: __dirname + "/.env"
-})
+
 
 client.login(process.env.TOKEN);

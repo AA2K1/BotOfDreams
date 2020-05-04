@@ -1,13 +1,9 @@
 const { MessageEmbed } = require('discord.js');
 module.exports = {
-    config: {
-        name: "website",
-        aliases: ["aa2k", "site"],
-        usage: `~website`,
-        category: "info",
-        description: "Returns link to my website",
-    },
-    execute(message, args, client, prefix) {
+    name: "website",
+    category: "info",
+    description: "Returns link to my website",
+    execute(message, args, client) {
         const embed1 = new MessageEmbed()
             .setTitle('Website: ')
             .setDescription('https://aa2k.netlify.app/')

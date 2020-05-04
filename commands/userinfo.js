@@ -1,13 +1,9 @@
 const { MessageEmbed } = require('discord.js');
 module.exports = {
-    config: {
-        name: "userinfo",
-        aliases: ["info", "aboutme"],
-        category: "info",
-        usage: `~userinfo`,
-        description: "Returns info about the user that sends the command",
-    },
-    execute(message, args, client, prefix) {
+    name: "userinfo",
+    category: "info",
+    description: "Returns info about the user that sends the command",
+    execute(message, args, client) {
         let user = message.mentions.users.first() || message.author;
 
         let userinfo = {};
@@ -35,5 +31,4 @@ module.exports = {
 
 
 
-
-
+            
