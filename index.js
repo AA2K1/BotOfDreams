@@ -28,7 +28,7 @@ client.on('message', message => {
     let args = message.content.slice(prefix.length).trim().split(/ +/g);
     let cmd = args.shift().toLowerCase();
 
-    let commandfile = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
+    //let commandfile = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
     switch(args[0]) {
         case 'blip':
             client.commands.get('blip').execute(message, args, client, prefix);
