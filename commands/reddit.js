@@ -8,7 +8,7 @@ module.exports = {
         category: "fun",
         description: "Shows an image from any image subreddit.",
     },
-    run: async (message, args, client) => {
+    run: async (message, args, client, prefix) => {
         if (args.length == 1) {
             const subReddit = args[0];
             message.channel.send("Your juicy meme, sir. (If it's from /r/okbuddyretard, it's not gonna show up becuase it's not supported.)");

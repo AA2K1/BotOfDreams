@@ -9,7 +9,7 @@ module.exports = {
         category: "fun",
         description: "Sends a random dank meme through an embed",
     },
-    run: async (message, args, client) => {
+    run: async (message, args, client, prefix) => {
         if (args.length < 1) {
             const subReddits = ["dankmemes", "xkcd", "me_irl", "meme", "dankmeme", "cursedcomments", "cursedimages", "blursedimages"];
             const random = subReddits[Math.floor(Math.random() * subReddits.length)];

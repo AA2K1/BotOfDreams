@@ -7,7 +7,7 @@ module.exports = {
         description: "Returns latency and API ping",
     
     },
-    run: async(message, args, client) => {
+    run: async(message, args, client, prefix) => {
         message.channel.send(`Blop\nAPI Latency: ${Math.round(client.ws.ping)}`);
     }
 }

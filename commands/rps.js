@@ -11,7 +11,7 @@ module.exports = {
         description: "Plays a nice friendly game of rock paper scissors.",
     },
 
-    run: async (message, args, client) => {
+    run: async (message, args, client, prefix) => {
         if (args.length < 1) {
             return message.reply("Give your choice after ~rps.");
         }

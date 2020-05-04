@@ -11,9 +11,9 @@ client.aliases = new Collection();
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
     const command = require(`./commands/${file}`);
-    const aliases = require(`./commands/${file}`)
+    //const aliases = require(`./commands/${file}`);
     client.commands.set(command.name, command);
-    client.aliases.set(command.aliases, aliases);
+    //client.aliases.set(command.aliases, aliases);
 }
 
 client.on("ready", () => {
@@ -24,13 +24,12 @@ client.on("ready", () => {
 client.on('message', message => {
     const prefix = '~';
     if(message.author.bot || message.channel.type === "dm") return;
-
+    if(!message.content.startsWith(prefix)) return;
     let args = message.content.slice(prefix.length).trim().split(/ +/g);
     let cmd = args.shift().toLowerCase();
 
-    if(!message.content.startsWith(prefix)) return;
-    let commandfile = bot.commands.get(cmd) || bot.commands.get(bot.aliases.get(cmd))
-    if(commandfile) commandfile.run(bot, message, args)
+    let commandfile = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd))
+    if(commandfile) commandfile.run(message, args, client, prefix)
     
 });
 
