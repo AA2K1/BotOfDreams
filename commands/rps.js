@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+let coins = require("../coins.json");
 const { promptMessage } = require('../functions.js');
 
 const chooseArr = ['🔥', '💦', '🌱'];
@@ -26,26 +27,29 @@ module.exports = {
             .setDescription(`React to this message in order to pick your choice.`)
         const m = await message.channel.send(embed)
         const reacted = await promptMessage(m, message.author, 30, chooseArr)
-
-        const botChoice = chooseArr[Math.floor(Math.random() * chooseArr.length)]
-
-
-        const result = await getWinner(reacted, botChoice);
+        await m.delete({}, 5000)
         //await m.clearReactions();
 
+        const botChoice = chooseArr[Math.floor(Math.random() * chooseArr.length)]
+        let won = false;
+        let moneyGained = Math.floor(Math.random() * 5) + 1;
+        // const result = getWinner(reacted, botChoice);
+        if(won) {
+            coins[message.author.id].coins += moneyGained;
+        }
         embed
-            .setTitle(`**${reacted} vs ${botChoice}**`)
-            .setDescription(result);
-
+            .setTitle(`**You: ${reacted} vs Me: ${botChoice}**`)
+            .setDescription(getWinner(reacted, botChoice));
         m.edit(embed);
 
 
         function getWinner(botOption, humanOption) {
             if (botOption === humanOption) {
                 return `Looks like it's a tie, ${message.author.username}. Well played.`
-            } else if ((botOption === 'rock' && humanOption === 'paper') || (botOption === 'paper' && humanOption === 'scissors') || (botOption === 'scissors' && humanOption === 'rock')) {
-                return `Looks like you won, ${message.author.username}. That was just luck.`
-            } else if ((botOption === 'rock' && humanOption === 'scissors') || (botOption === 'paper' && humanOption === 'rock') || (botOption === 'scissors' && humanOption === 'paper')) {
+            } else if ((botOption === '🔥' && humanOption === '💦') || (botOption === '💦' && humanOption === '🌱') || (botOption === '🌱' && humanOption === '🔥')) {
+                won = true;
+                return `Looks like you won, ${message.author.username}. That was just luck. Got ${moneyGained} coins.`
+            } else if ((botOption === '🔥' && humanOption === '🌱') || (botOption === '💦' && humanOption === '🔥') || (botOption === '🌱' && humanOption === '💦')) {
                 return `Looks like I win, ${message.author.username}. Easy win, you suck.`
             }
         }

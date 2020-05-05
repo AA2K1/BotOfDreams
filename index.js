@@ -23,6 +23,15 @@ config({
 
 client.on("ready", () => {
     console.log(`Let us start the game, ${client.user.username}`);
+    client.on("ready", () => {
+        client.user.setPresence({
+            game: { 
+                name: 'memes',
+                type: 'WATCHING'
+            },
+            status: 'idle'
+        })
+    })
 });
 
 client.on("message", async message => {
