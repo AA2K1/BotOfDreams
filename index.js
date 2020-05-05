@@ -41,7 +41,7 @@ client.on("message", async message => {
 })
 
 client.on("message", async message => {
-    const prefix = 'lmao'
+    const prefix = '>'
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();
 
@@ -181,6 +181,8 @@ client.on("message", async message => {
         case 'bal':
             client.commands.get('coins').run(message, args, client, prefix);
         break;
+        default:
+            message.reply("Hey dumb-dumb, that's not a command 🤦");
     }
 });
 
