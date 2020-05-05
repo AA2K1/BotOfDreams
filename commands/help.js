@@ -19,7 +19,7 @@ module.exports = {
             message.channel.send(embed)
         } else {
         let embed1 = new MessageEmbed()
-            .setColor(0x96fac5)
+            .setColor(0xd65a94)
             .setAuthor(`${client.user.username} Help`, client.user.displayavatarURL)
             .setThumbnail(client.user.displayavatarURL)
             .setTitle(`***Command List:***`)

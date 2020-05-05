@@ -8,7 +8,7 @@ module.exports = {
         const embed1 = new MessageEmbed()
             .setTitle('Website: ')
             .setDescription('https://aa2k.netlify.app/')
-            .setColor(0x96fac5)
+            .setColor(0xd65a94)
             .setTimestamp()
             .setFooter(client.user.username, client.user.displayAvatarURL)
         message.channel.send(embed1)

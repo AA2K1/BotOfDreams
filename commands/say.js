@@ -11,7 +11,7 @@ module.exports = {
         
         if (args[0] === "embed") {
             const embed = new MessageEmbed()
-                .setColor(0x96fac5)
+                .setColor(0xd65a94)
                 .setDescription(args.slice(1).join(" "))
                 .setTimestamp()
                 .setFooter(client.user.username, client.user.displayAvatarURL)

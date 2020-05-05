@@ -35,7 +35,7 @@ module.exports = {
         // const result = getWinner(reacted, botChoice);
         embed
             .setTitle(`**You: ${reacted} vs Me: ${botChoice}**`)
-            .setDescription(getWinner(reacted, botChoice));
+            .setDescription(getWinner(reacted, botChoice))
         m.edit(embed);
 
 
