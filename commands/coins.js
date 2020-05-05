@@ -16,6 +16,7 @@ module.exports = {
         let coinEmbed = new MessageEmbed()
             .setAuthor(message.author.username)
             .setColor(0xc9b30c)
+            .setDescription('💰💰💰💰💰💰💰💰💰💰')
             .addField(`Balance: `, `**${uCoins}** DreamCoin(s)`)
             .setTimestamp()
             .setFooter(client.user.username, client.user.displayAvatarURL)

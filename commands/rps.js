@@ -8,7 +8,7 @@ module.exports = {
     name: "rps",
     aliases: ["rockpaperscissors"],
     category: "fun",
-    description: "Plays a nice friendly game of rock paper scissors.",
+    description: "Plays a nice friendly game of rock paper scissors. Can get a small amount of money out of it.",
     run: async (message, args, client) => {
         // if(args.length < 1) {
         //     return message.reply("Give your choice after ~rps.");
