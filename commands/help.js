@@ -8,7 +8,7 @@ module.exports = {
         if (args[0] == "help") return message.reply(`Just send ${prefix}help instead, dumb-dumb. Or specify a command that's not help dumb-dumb.`);
 
         if(args[0]) {
-            if(!client.commands.get(args[0]).name) return message.reply("There is no command with that name dumb-dumb.")
+            if(!client.commands.get(args[0])) return message.reply("There is no command with that name dumb-dumb.")
             let embed = new MessageEmbed()
                 .setColor(0xd65a94)
                 .setAuthor(`${client.user.username} Help`, client.user.displayavatarURL)
