@@ -44,7 +44,7 @@ module.exports = {
                 return `Looks like it's a tie, ${message.author.username}. Well played.`
             } else if ((botOption === '🔥' && humanOption === '💦') || (botOption === '💦' && humanOption === '🌱') || (botOption === '🌱' && humanOption === '🔥')) {
                 coins[message.author.id].coins += moneyGained;
-                return `Looks like you won, ${message.author.username}. That was just luck. Got ${moneyGained} coins.`
+                return `Looks like you won, ${message.author.username}. That was just luck. Got **${moneyGained}** coins.`
             } else if ((botOption === '🔥' && humanOption === '🌱') || (botOption === '💦' && humanOption === '🔥') || (botOption === '🌱' && humanOption === '💦')) {
                 return `Looks like I win, ${message.author.username}. Easy win, you suck.`
             }
