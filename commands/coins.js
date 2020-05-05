@@ -34,9 +34,9 @@ module.exports = {
     }
 }
 
-module.exports.config = {
-    name: "coins",
-    aliases: ["coin"],
-    category: "economy",
-    description: "Shows how many coins someone has."
-}
+// module.exports.config = {
+//     name: "coins",
+//     aliases: ["coin"],
+//     category: "economy",
+//     description: "Shows how many coins someone has."
+// }
