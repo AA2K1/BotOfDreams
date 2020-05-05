@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
     name: "coins",
-    aliases: ["coin"],
+    aliases: ["coin", "balance", "bal"],
     category: "economy",
     description: "Shows how many coins someone has.",
     run: async (message, args, client, prefix) => {

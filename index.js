@@ -137,6 +137,12 @@ client.on("message", async message => {
         case 'coin':
             client.commands.get('coins').run(message, args, client, prefix);
         break;
+        case 'balance':
+            client.commands.get('coins').run(message, args, client, prefix);
+        break;
+        case 'bal':
+            client.commands.get('coins').run(message, args, client, prefix);
+        break;
     }
 });
 
