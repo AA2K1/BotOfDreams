@@ -4,6 +4,7 @@ const fs = require('fs');
 let xp = require('./xp.json');
 let coins = require('./coins.json');
 let colours = require('./colours.json')
+const toNxtLvl = Math.floor(Math.random() * 300) + 50;
 const client = new Client({
     disableEveryone: true
 });
@@ -33,7 +34,7 @@ client.on("ready", () => {
             },
             status: 'idle'
         })
-    })
+    });
 });
 
 client.on("message", async message => {
@@ -41,7 +42,7 @@ client.on("message", async message => {
 })
 
 client.on("message", async message => {
-    const prefix = '>'
+    const prefix = '<'
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();
 
@@ -83,27 +84,33 @@ client.on("message", async message => {
                 strength: 10,
                 wit: 10,
                 vitality: 20,
-                agility: 10
+                agility: 10,
+                magic: 10
             }
         };
     }
 
     let xpAdd = Math.floor(Math.random() * 5) + 15;
     let curLvl = xp[message.author.id].level;
-    const nxtLvl = xp[message.author.id].level * 300;
+    const nxtLvl = xp[message.author.id].level * toNxtLvl;
     xp[message.author.id].xp += xpAdd
     let curStats = xp[message.author.id].stats;
 
+    console.log(toNxtLvl);
+
     if(nxtLvl <= xp[message.author.id].xp) {
         xp[message.author.id].level = curLvl + 1;
-        curStats.strength += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
-        curStats.wit += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
-        curStats.vitality += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
-        curStats.agility += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
+        xp[message.author.id].xp = 0;
+        let nxtStrength = curStats.strength += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
+        let nxtWit = curStats.wit += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
+        let nxtVital = curStats.vitality += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
+        let nxtAgility = curStats.agility += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
+        let nxtMagic = curStats.magic += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
         let lvlUp = new MessageEmbed() 
             .setColor(colours.stats)
             .setTitle(`🎺🎺 ${message.author.username} leveled up! 🎺🎺`)
-            .setDescription(`**Level:** ${xp[message.author.id].level}\n**XP until Next LvL:** ${xp[message.author.id].level * 300}`)
+            .setDescription(`**Level:** ${xp[message.author.id].level}\n**XP until Next LvL:** ${xp[message.author.id].level * Math.floor(Math.random() * 300) + 305}`)
+            .addField("**Stats: **", `Strength: ${nxtStrength}\nWit: ${nxtWit}\nVitality: ${nxtVital}\nAgility: ${nxtAgility}\nMagic: ${nxtMagic}\n`)
         message.channel.send(lvlUp)
     }
 
