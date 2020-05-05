@@ -36,9 +36,11 @@ module.exports = {
             .addField("**Category: Fun**", "-------------------------------")
             .addField("Meme", "Shows a fresh random meme for your viewing.")
             .addField("Reddit", "Shows a post from any image subreddit in randompuppy. Arguments must be in all lowercase.")
-            .addField("RPS", "Plays a nice, friendly game of rock paper scissors. Use arguments to pick your choice.")
+            .addField("RPS", "Plays a nice, friendly game of rock paper scissors.")
             .addField("**Category: Economy**", "-------------------------------")
-            .addField("Coins", "Shows how many coins someone has.")
+            .addField("Coins", "Shows how many coins you or someone has.")
+            .addField("**Category: Stats**", "-------------------------------")
+            .addField("Level", "Returns level, and xp until next level.")
         message.channel.send(embed1)
         }
     }

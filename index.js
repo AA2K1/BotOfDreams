@@ -42,7 +42,7 @@ client.on("message", async message => {
 })
 
 client.on("message", async message => {
-    const prefix = '<'
+    const prefix = 'lmao'
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();
 
@@ -92,11 +92,11 @@ client.on("message", async message => {
 
     let xpAdd = Math.floor(Math.random() * 5) + 15;
     let curLvl = xp[message.author.id].level;
-    const nxtLvl = xp[message.author.id].level * toNxtLvl;
+    const nxtLvl = curLvl * toNxtLvl;
     xp[message.author.id].xp += xpAdd
     let curStats = xp[message.author.id].stats;
 
-    console.log(toNxtLvl);
+    console.log(nxtLvl);
 
     if(nxtLvl <= xp[message.author.id].xp) {
         xp[message.author.id].level = curLvl + 1;
@@ -187,6 +187,15 @@ client.on("message", async message => {
         break;
         case 'bal':
             client.commands.get('coins').run(message, args, client, prefix);
+        break;
+        case 'level':
+            client.commands.get('level').run(message, args, client, prefix, nxtLvl);
+        break;
+        case 'lvl':
+            client.commands.get('level').run(message, args, client, prefix, nxtLvl);
+        break;
+        case 'stats':
+            client.commands.get('level').run(message, args, client, prefix, nxtLvl);
         break;
         default:
             message.reply("Hey dumb-dumb, that's not a command 🤦");
