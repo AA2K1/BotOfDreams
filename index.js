@@ -1,19 +1,20 @@
 const { Client, MessageEmbed, Collection } = require("discord.js");
 const { config } = require("dotenv");
 const fs = require('fs');
-const coins = require('./coins.json');
+let coins = require('./coins.json');
 const client = new Client({
     disableEveryone: true
 });
 
 client.commands = new Collection();
+client.aliases = new Collection();
 
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
     const command = require(`./commands/${file}`);
- 
     client.commands.set(command.name, command);
+    client.commands.set(command.aliases, client.aliases);
 }
 
 config({
@@ -37,7 +38,7 @@ client.on("message", async message => {
     if (!message.guild) return;
     if (!message.content.startsWith(prefix)) return;
     if (!message.member) message.member = await message.guild.fetchMember(message);
-    if(cmd.length === 0) return;
+    //if(cmd.length === 0) return;
 
     if(!coins[message.author.id]) {
         coins[message.author.id] = {
@@ -45,8 +46,8 @@ client.on("message", async message => {
         };
     }
 
-    let coinAmt = Math.floor(Math.random() * 50) + 1;
-    let baseAmt = Math.floor(Math.random() * 50) + 1;
+    let coinAmt = Math.floor(Math.random() * 15) + 10;
+    let baseAmt = Math.floor(Math.random() * 15) + 10;
     console.log(`${coinAmt}:${baseAmt}`);
 
     if(coinAmt === baseAmt) {
@@ -56,33 +57,77 @@ client.on("message", async message => {
         fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
             if (err) console.log(err)
         });
+        let coinEmbed = new MessageEmbed()
+            .setAuthor(message.author.username)
+            .setColor(0xc9b30c)
+            .addField("🤑 🤑 🤑 🤑 🤑", `${coinAmt} DreamCoin(s) have been transfered to you!`)
+        message.channel.send(coinEmbed)
     }
  
     switch(cmd) {
-        case 'blip' || 'ping':
+        case 'blip':
             client.commands.get('blip').execute(message, args, client);
         break;
-        case 'say' || 'echo' || 'repeat':
+        case 'ping':
+            client.commands.get('blip').execute(message, args, client);
+        break;
+        case 'say':
             client.commands.get('say').execute(message, args, client);
         break;
-        case 'userinfo' || 'aboutme':
+        case 'echo':
+            client.commands.get('say').execute(message, args, client);
+        break;
+        case 'repeat':
+            client.commands.get('say').execute(message, args, client);
+        break;
+        case 'userinfo':
             client.commands.get('userinfo').execute(message, args, client);
         break;
-        case 'website' || 'aa2k': 
+        case 'aboutme':
+            client.commands.get('userinfo').execute(message, args, client);
+        break;
+        case 'website':
             client.commands.get('website').execute(message, args, client);    
         break;
-        case 'help' || 'botinfo':
+        case 'aa2k': 
+            client.commands.get('website').execute(message, args, client);    
+        break;
+        case 'help':
             client.commands.get('help').run(message, args, client, prefix);
         break;
-        case 'meme' || 'randommeme' || 'maymay':
+        case 'botinfo':
+            client.commands.get('help').run(message, args, client, prefix);
+        break;
+        case 'meme':
             client.commands.get('meme').run(message, args, client);
         break;
-        case 'reddit' || 'imagereddit':
+        case 'memes':
+            client.commands.get('meme').run(message, args, client);
+        break;
+        case 'maymay':
+            client.commands.get('meme').run(message, args, client);
+        break;
+        case 'randommeme':
+            client.commands.get('meme').run(message, args, client);
+        break;
+        case 'reddit':
             client.commands.get('reddit').run(message, args, client);
         break;
-        case 'rps' || 'rockpaperscissors':
-            client.commands.get('rps').execute(message, args, client);
-
+        case 'imagereddit':
+            client.commands.get('reddit').run(message, args, client);
+        break;
+        case 'rps':
+            client.commands.get('rps').run(message, args, client);
+        break;
+        case 'rockpaperscissors':
+            client.commands.get('rps').run(message, args, client);
+        break;
+        case 'coins':
+            client.commands.get('coins').run(message, args, client, prefix);
+        break;
+        case 'coin':
+            client.commands.get('coins').run(message, args, client, prefix);
+        break;
     }
 });
 
