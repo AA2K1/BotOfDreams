@@ -1,5 +1,6 @@
 let coins = require("../coins.json");
 const { MessageEmbed } = require("discord.js");
+let colours = require("../colours.json")
 
 module.exports = {
     name: "coins",
@@ -15,7 +16,7 @@ module.exports = {
         let uCoins = coins[message.author.id].coins
         let coinEmbed = new MessageEmbed()
             .setAuthor(message.author.username)
-            .setColor(0xc9b30c)
+            .setColor(colours.economy)
             .setDescription('💰💰💰💰💰💰💰💰💰💰')
             .addField(`Balance: `, `**${uCoins}** DreamCoin(s)`)
             .setTimestamp()

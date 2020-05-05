@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+let colours = require("../colours.json")
 module.exports = {
     name: "website",
     aliases: ["aa2k", "aboutcreator"],
@@ -8,7 +9,7 @@ module.exports = {
         const embed1 = new MessageEmbed()
             .setTitle('Website: ')
             .setDescription('https://aa2k.netlify.app/')
-            .setColor(0xd65a94)
+            .setColor(colours.info)
             .setTimestamp()
             .setFooter(client.user.username, client.user.displayAvatarURL)
         message.channel.send(embed1)

@@ -1,7 +1,9 @@
 const { Client, MessageEmbed, Collection } = require("discord.js");
 const { config } = require("dotenv");
 const fs = require('fs');
+let xp = require('./xp.json');
 let coins = require('./coins.json');
+let colours = require('./colours.json')
 const client = new Client({
     disableEveryone: true
 });
@@ -39,7 +41,7 @@ client.on("message", async message => {
 })
 
 client.on("message", async message => {
-    const prefix = '~'
+    const prefix = 'lmao'
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();
 
@@ -68,11 +70,47 @@ client.on("message", async message => {
         });
         let coinEmbed = new MessageEmbed()
             .setAuthor(message.author.username)
-            .setColor(0xc9b30c)
+            .setColor(colours.economy)
             .addField("🤑 🤑 🤑 🤑 🤑", `${coinAmt} DreamCoin(s) have been transfered to you!`)
         message.channel.send(coinEmbed)
     }
- 
+
+    if(!xp[message.author.id]) {
+        xp[message.author.id] = {
+            xp: 0,
+            level: 1,
+            stats: {
+                strength: 10,
+                wit: 10,
+                vitality: 20,
+                agility: 10
+            }
+        };
+    }
+
+    let xpAdd = Math.floor(Math.random() * 5) + 15;
+    let curLvl = xp[message.author.id].level;
+    const nxtLvl = xp[message.author.id].level * 300;
+    xp[message.author.id].xp += xpAdd
+    let curStats = xp[message.author.id].stats;
+
+    if(nxtLvl <= xp[message.author.id].xp) {
+        xp[message.author.id].level = curLvl + 1;
+        curStats.strength += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
+        curStats.wit += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
+        curStats.vitality += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
+        curStats.agility += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
+        let lvlUp = new MessageEmbed() 
+            .setColor(colours.stats)
+            .setTitle(`🎺🎺 ${message.author.username} leveled up! 🎺🎺`)
+            .setDescription(`**Level:** ${xp[message.author.id].level}\n**XP until Next LvL:** ${xp[message.author.id].level * 300}`)
+        message.channel.send(lvlUp)
+    }
+
+    fs.writeFile("./xp.json", JSON.stringify(xp), (err) => {
+        if(err) console.log(err)
+    });
+
     switch(cmd) {
         case 'blip':
             client.commands.get('blip').execute(message, args, client);

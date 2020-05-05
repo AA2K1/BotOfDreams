@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const randomPuppy = require('random-puppy');
+let colours = require("../colours.json")
 module.exports = {
     name: "reddit",
     aliases: ["imagereddit"],
@@ -11,7 +12,7 @@ module.exports = {
             message.channel.send("Your juicy meme, sir. (If it's from /r/okbuddyretard, it's not gonna show up becuase it's not supported.)");
             const image = await randomPuppy(subReddit);
             const embed = new MessageEmbed()
-                .setColor(0x96fac5)
+                .setColor(colours.fun)
                 .setImage(image)
                 .setTitle(`From /r/${subReddit}`)
                 .setTimestamp()

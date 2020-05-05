@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+let colours = require("../colours.json")
 module.exports = {
     name: "say",
     aliases: ["echo", "repeat"],
@@ -11,7 +12,7 @@ module.exports = {
         
         if (args[0] === "embed") {
             const embed = new MessageEmbed()
-                .setColor(0xd65a94)
+                .setColor(colours.info)
                 .setDescription(args.slice(1).join(" "))
                 .setTimestamp()
                 .setFooter(client.user.username, client.user.displayAvatarURL)

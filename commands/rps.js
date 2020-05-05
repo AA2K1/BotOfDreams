@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 let coins = require("../coins.json");
+let colours = require("../colours.json")
 const { promptMessage } = require('../functions.js');
 
 const chooseArr = ['🔥', '💦', '🌱'];
@@ -20,7 +21,7 @@ module.exports = {
         // const botPick = chooseArr[Math.floor((Math.random() * chooseArr.length))];
 
         const embed = new MessageEmbed()
-            .setColor(0x96fac5)
+            .setColor(colours.fun)
             .setTimestamp()
             .setFooter(client.user.username, client.user.displayAvatarURL)
             .setTitle(`${message.author.username} vs ${client.user.username}`)

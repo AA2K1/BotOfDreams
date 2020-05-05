@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+let colours = require("../colours.json")
 module.exports = {
     name: "userinfo",
     aliases: ["aboutme"],
@@ -18,7 +19,7 @@ module.exports = {
             .setAuthor(user.tag, userinfo.avatar)
             .setThumbnail(userinfo.avatar)
             .setTimestamp()
-            .setColor(0xd65a94)
+            .setColor(colours.info)
             .setFooter(client.user.username, client.user.displayAvatarURL)
             .addField(`Username`, userinfo.name, true)
             .addField(`ID`, userinfo.id, true)

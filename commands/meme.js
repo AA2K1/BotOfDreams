@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const randomPuppy = require('random-puppy');
+let colours = require("../colours.json")
 module.exports = {
     name: "meme",
     category: "fun",
@@ -12,7 +13,7 @@ module.exports = {
             message.channel.send("Your juicy meme, sir.");
             const img = await randomPuppy(random);
             const embed = new MessageEmbed()
-                .setColor(0x96fac5)
+                .setColor(colours.fun)
                 .setImage(img)
                 .setTitle(`From /r/${random}`)
                 .setURL(`https://www.reddit.com/r/${random}/`)

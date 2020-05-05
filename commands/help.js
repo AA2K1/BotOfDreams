@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+let colours = require("../colours.json")
 module.exports = {
     name: "help",
     aliases: ["botinfo"],
@@ -10,7 +11,7 @@ module.exports = {
         if(args[0]) {
             if(!client.commands.get(args[0])) return message.reply("There is no command with that name dumb-dumb.")
             let embed = new MessageEmbed()
-                .setColor(0xd65a94)
+                .setColor(colours.info)
                 .setAuthor(`${client.user.username} Help`, client.user.displayavatarURL)
                 .setThumbnail(client.user.displayavatarURL)
                 .setTimestamp()
@@ -19,11 +20,11 @@ module.exports = {
             message.channel.send(embed)
         } else {
         let embed1 = new MessageEmbed()
-            .setColor(0xd65a94)
+            .setColor(colours.info)
             .setAuthor(`${client.user.username} Help`, client.user.displayavatarURL)
             .setThumbnail(client.user.displayavatarURL)
             .setTitle(`***Command List:***`)
-            .setDescription(`For more information about a specific command, use ${prefix}help command. Prefix is ${prefix}.`)
+            .setDescription(`For more information about a specific command, use ${prefix} help command. Prefix is ${prefix}.`)
             .setTimestamp()
             .setFooter(client.user.username, client.user.displayAvatarURL)
             .addField("**Category: Info**", "-------------------------------")
