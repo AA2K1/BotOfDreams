@@ -15,7 +15,7 @@ module.exports = {
                 .setColor(colours.info)
                 .setDescription(args.slice(1).join(" "))
                 .setTimestamp()
-                .setFooter(client.user.username, client.user.displayAvatarURL)
+                .setFooter(client.user.username, client.user.displayAvatarURL())
             message.channel.send(embed);
         } else {
             message.channel.send(args.slice(0).join(" "));

@@ -4,13 +4,13 @@ let colours = require("../colours.json");
 module.exports = {
     name: "level",
     aliases: ["lvl", "stats"],
-    category: "stats",
+    category: "rpg",
     description: "Returns level, and xp until next level.",
 
     run: async (message, args, client, prefix, nxtLvl) => {
-        xp[message.author.id].xpToNextLvL;
-        if(!xp[message.author.id]) {
-            xp[message.author.id] = {
+        let user = message.mentions.users.first() || message.author;
+        if(!xp[user.id]) {
+            xp[user.id] = {
                 xp: 0,
                 level: 1,
                 stats: {
@@ -25,13 +25,14 @@ module.exports = {
 
         let lvlUp = new MessageEmbed() 
             .setColor(colours.stats)
-            .setTitle(`**Stats for ${message.author.username}**`)
-            .addField(`Level: `, `${xp[message.author.id].level}`)
-            .addField(`Current XP: `, `${xp[message.author.id].xp}`)
+            .setTitle(`**Stats for ${user.username}**`)
+            .addField(`Level: `, `${xp[user.id].level}`)
+            .addField(`Current XP: `, `${xp[user.id].xp}`)
             .addField(`XP Needed to Next Level: `, `${nxtLvl}`)
-            .addField(`Stats: `, `**Strength: ** ${xp[message.author.id].stats.strength}\n**Wit: ** ${xp[message.author.id].stats.wit}\n**Vitality: ** ${xp[message.author.id].stats.vitality}\n**Agility: ** ${xp[message.author.id].stats.agility}\n**Magic: ** ${xp[message.author.id].stats.magic}\n`)
+            .addField(`Stats: `, `**Strength: ** ${xp[user.id].stats.strength}\n**Wit: ** ${xp[user.id].stats.wit}\n**Vitality: ** ${xp[user.id].stats.vitality}\n**Agility: ** ${xp[user.id].stats.agility}\n**Magic: ** ${xp[user.id].stats.magic}\n`)
             .setTimestamp()
-            .setFooter(client.user.username, client.user.displayAvatarURL)
+            .setThumbnail(user.displayAvatarURL())
+            .setFooter(client.user.username, client.user.displayAvatarURL())
         message.channel.send(lvlUp)
     }
 

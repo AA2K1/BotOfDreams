@@ -23,7 +23,7 @@ module.exports = {
         const embed = new MessageEmbed()
             .setColor(colours.fun)
             .setTimestamp()
-            .setFooter(client.user.username, client.user.displayAvatarURL)
+            .setFooter(client.user.username, client.user.displayAvatarURL())
             .setTitle(`${message.author.username} vs ${client.user.username}`)
             .setDescription(`React to this message in order to pick your choice.`)
         const m = await message.channel.send(embed)

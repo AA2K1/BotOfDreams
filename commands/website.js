@@ -11,7 +11,7 @@ module.exports = {
             .setDescription('https://aa2k.netlify.app/')
             .setColor(colours.info)
             .setTimestamp()
-            .setFooter(client.user.username, client.user.displayAvatarURL)
+            .setFooter(client.user.username, client.user.displayAvatarURL())
         message.channel.send(embed1)
     }
 }

@@ -2,8 +2,9 @@ const { Client, MessageEmbed, Collection } = require("discord.js");
 const { config } = require("dotenv");
 const fs = require('fs');
 let xp = require('./xp.json');
+let classes = require('./classes.json');
 let coins = require('./coins.json');
-let colours = require('./colours.json')
+let colours = require('./colours.json');
 const toNxtLvl = Math.floor(Math.random() * 300) + 50;
 const client = new Client({
     disableEveryone: true
@@ -52,12 +53,13 @@ client.on("message", async message => {
     if (!message.member) message.member = await message.guild.fetchMember(message);
     //if(cmd.length === 0) return;
 
+    //------------------------------------------------------------------------------
     if(!coins[message.author.id]) {
         coins[message.author.id] = {
             coins: 0
         };
     }
-
+    
     let coinAmt = Math.floor(Math.random() * 15) + 10;
     let baseAmt = Math.floor(Math.random() * 15) + 10;
     console.log(`${coinAmt}:${baseAmt}`);
@@ -75,7 +77,7 @@ client.on("message", async message => {
             .addField("🤑 🤑 🤑 🤑 🤑", `${coinAmt} DreamCoin(s) have been transfered to you!`)
         message.channel.send(coinEmbed)
     }
-
+    //------------------------------------------------------------------------------
     if(!xp[message.author.id]) {
         xp[message.author.id] = {
             xp: 0,
@@ -93,9 +95,10 @@ client.on("message", async message => {
     let xpAdd = Math.floor(Math.random() * 5) + 15;
     let curLvl = xp[message.author.id].level;
     const nxtLvl = curLvl * toNxtLvl;
-    xp[message.author.id].xp += xpAdd
+    if(cmd.length !== 0) {
+        xp[message.author.id].xp += xpAdd
+    }
     let curStats = xp[message.author.id].stats;
-
     console.log(nxtLvl);
 
     if(nxtLvl <= xp[message.author.id].xp) {
@@ -117,7 +120,16 @@ client.on("message", async message => {
     fs.writeFile("./xp.json", JSON.stringify(xp), (err) => {
         if(err) console.log(err)
     });
-
+    //------------------------------------------------------------------------------
+    if(!classes[message.author.id]) {
+        classes[message.author.id] = {
+            class: 'peasant'
+        }
+        fs.writeFile("./classes.json", JSON.stringify(classes), (err) => {
+            if(err) console.log(err)
+        });
+    }
+    //------------------------------------------------------------------------------
     switch(cmd) {
         case 'blip':
             client.commands.get('blip').execute(message, args, client);
@@ -196,6 +208,12 @@ client.on("message", async message => {
         break;
         case 'stats':
             client.commands.get('level').run(message, args, client, prefix, nxtLvl);
+        break;
+        case 'chooseclass':
+            client.commands.get('chooseclass').run(message, args, client);
+        break;
+        case 'class':
+            client.commands.get('chooseclass').run(message, args, client);
         break;
         default:
             message.reply("Hey dumb-dumb, that's not a command 🤦");

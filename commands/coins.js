@@ -5,7 +5,7 @@ let colours = require("../colours.json")
 module.exports = {
     name: "coins",
     aliases: ["coin", "balance", "bal"],
-    category: "economy",
+    category: "rpg",
     description: "Shows how many coins someone has.",
     run: async (message, args, client, prefix) => {
         if(!coins[message.author.id]) {
@@ -20,7 +20,7 @@ module.exports = {
             .setDescription('💰💰💰💰💰💰💰💰💰💰')
             .addField(`Balance: `, `**${uCoins}** DreamCoin(s)`)
             .setTimestamp()
-            .setFooter(client.user.username, client.user.displayAvatarURL)
+            .setFooter(client.user.username, client.user.displayAvatarURL())
         message.channel.send(coinEmbed)
     }
 }

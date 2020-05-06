@@ -16,7 +16,7 @@ module.exports = {
                 .setImage(image)
                 .setTitle(`From /r/${subReddit}`)
                 .setTimestamp()
-                .setFooter(client.user.username, client.user.displayAvatarURL)
+                .setFooter(client.user.username, client.user.displayAvatarURL())
             message.channel.send(embed);
         } else {
             message.reply("ERROR: Specify a subreddit. If you want random memes, try ~meme.")
