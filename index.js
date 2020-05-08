@@ -2,7 +2,8 @@ const { Client, MessageEmbed, Collection } = require("discord.js");
 const { config } = require("dotenv");
 const mongoose = require('mongoose');
 const Money = require('./models/money');
-mongoose.connect('mongodb://localhost:27017/CoinDB', {
+const MONGODB_URI = 'mongodb+srv://aa2k:Adam2006@botofdreams-dv0if.mongodb.net/test?retryWrites=true&w=majority';
+mongoose.connect(MONGODB_URI || 'mongodb://localhost:27017/CoinDB', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -42,7 +43,7 @@ client.on("message", async message => {
 })
 
 client.on("message", async message => {
-    const prefix = 'lmao';
+    const prefix = '//';
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();
     if (message.mentions.members.username == client.user.username) {

@@ -5,7 +5,7 @@ module.exports = {
     name: "meme",
     cooldown: 15,
     category: "fun",
-    aliases: ["maymay", "randommeme"],
+    aliases: ["maymay", "randommeme", "memes"],
     description: "Sends a random dank meme through an embed",
     run: async (message, args, client) => {
         if (args.length < 1) {

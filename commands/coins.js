@@ -3,7 +3,8 @@ const { MessageEmbed, Collection } = require("discord.js");
 let colours = require("../colours.json")
 const mongoose = require('mongoose');
 const Money = require('../models/money.js');
-mongoose.connect('mongodb://localhost:27017/CoinDB', {
+const MONGODB_URI = 'mongodb+srv://aa2k:Adam2006@botofdreams-dv0if.mongodb.net/test?retryWrites=true&w=majority';
+mongoose.connect(MONGODB_URI || 'mongodb://localhost:27017/CoinDB', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
