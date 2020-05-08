@@ -3,6 +3,7 @@ let colours = require("../colours.json")
 module.exports = {
     name: "help",
     aliases: ["botinfo"],
+    cooldown: 3,
     category: "info",
     description: "Returns list of commands and prefix",
     run: async (message, args, client, prefix) => {
@@ -12,8 +13,8 @@ module.exports = {
             if(!client.commands.get(args[0])) return message.reply("There is no command with that name dumb-dumb.")
             let embed = new MessageEmbed()
                 .setColor(colours.info)
-                .setAuthor(`${client.user.username} Help`, client.user.displayavatarURL())
-                .setThumbnail(client.user.displayavatarURL())
+                .setAuthor(`${client.user.username} Help`, client.user.displayAvatarURL())
+                .setThumbnail(client.user.displayAvatarURL())
                 .setTimestamp()
                 .setFooter(client.user.username, client.user.displayAvatarURL())
                 .setDescription(`***Command: *** ${client.commands.get(args[0]).name}\n ***Category: *** ${client.commands.get(args[0]).category}\n ***Description: *** ${client.commands.get(args[0]).description}\n ***Aliases: *** [${client.commands.get(args[0]).aliases}]`)
@@ -21,8 +22,8 @@ module.exports = {
         } else {
         let embed1 = new MessageEmbed()
             .setColor(colours.info)
-            .setAuthor(`${client.user.username} Help`, client.user.displayavatarURL())
-            .setThumbnail(client.user.displayavatarURL)
+            .setAuthor(`${client.user.username} Help`, client.user.displayAvatarURL())
+            .setThumbnail(client.user.displayAvatarURL())
             .setTitle(`***Command List:***`)
             .setDescription(`For more information about a specific command, use ${prefix} help command. Prefix is ${prefix}.`)
             .setTimestamp()
@@ -37,10 +38,10 @@ module.exports = {
             .addField("Meme", "Shows a fresh random meme for your viewing.")
             .addField("Reddit", "Shows a post from any image subreddit in randompuppy. Arguments must be in all lowercase.")
             .addField("RPS", "Plays a nice, friendly game of rock paper scissors.")
-            .addField("**Category: RPG**", "-------------------------------")
-            .addField("Level", "Returns level, and xp until next level.")
+            .addField("**Category: Stats**", "-------------------------------")
             .addField("Coins", "Shows how many coins you or someone has.")
             .addField("ChooseClass", "Lets you choose a class, which influences stats.")
+            .addField("Leaderboard", "Shows richest in a server in terms of coins.")
         message.channel.send(embed1)
         }
     }

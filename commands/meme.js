@@ -3,6 +3,7 @@ const randomPuppy = require('random-puppy');
 let colours = require("../colours.json")
 module.exports = {
     name: "meme",
+    cooldown: 15,
     category: "fun",
     aliases: ["maymay", "randommeme"],
     description: "Sends a random dank meme through an embed",

@@ -1,12 +1,18 @@
-const { MessageEmbed } = require("discord.js");
-let coins = require("../coins.json");
+const { MessageEmbed, Collection } = require("discord.js");
 let colours = require("../colours.json")
+const mongoose = require('mongoose');
+const Money = require('../models/money.js');
+mongoose.connect('mongodb://localhost:27017/CoinDB', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 const { promptMessage } = require('../functions.js');
 
 const chooseArr = ['🔥', '💦', '🌱'];
 
 module.exports = {
     name: "rps",
+    cooldown: 25,
     aliases: ["rockpaperscissors"],
     category: "fun",
     description: "Plays a nice friendly game of rock paper scissors. Can get a small amount of money out of it.",
@@ -28,12 +34,11 @@ module.exports = {
             .setDescription(`React to this message in order to pick your choice.`)
         const m = await message.channel.send(embed)
         const reacted = await promptMessage(m, message.author, 30, chooseArr)
-        //await m.clearReactions();
 
         const botChoice = chooseArr[Math.floor(Math.random() * chooseArr.length)]
         let won = false;
-        let moneyGained = Math.floor(Math.random() * 5) + 1;
-        // const result = getWinner(reacted, botChoice);
+        let moneyGained = Math.floor(Math.random() * 5) + 20;
+
         embed
             .setTitle(`**You: ${reacted} vs Me: ${botChoice}**`)
             .setDescription(getWinner(botChoice, reacted))
@@ -44,7 +49,25 @@ module.exports = {
             if (botOption === humanOption) {
                 return `Looks like it's a tie, ${message.author.username}. Well played.`
             } else if ((botOption === '🔥' && humanOption === '💦') || (botOption === '💦' && humanOption === '🌱') || (botOption === '🌱' && humanOption === '🔥')) {
-                coins[message.author.id].coins += moneyGained;
+                Money.findOne({
+                    userID: message.author.id,
+                    serverID: message.guild.id
+                }, (err, money) => {
+                    if (err) console.log(err)
+                    if (!money) {
+                        const newMoney = new Money({
+                            userID: message.author.id,
+                            serverID: message.guild.id,
+                            money: moneyGained
+                        })
+    
+                        newMoney.save().catch(err => console.log(err));
+                        message.reply('your money has been saved in a database.')
+                    } else {
+                        money.money = money.money + moneyGained;
+                        money.save().catch(err => console.log(err));
+                    }
+                })
                 return `Looks like you won, ${message.author.username}. That was just luck. Got **${moneyGained}** coins.`
             } else if ((botOption === '🔥' && humanOption === '🌱') || (botOption === '💦' && humanOption === '🔥') || (botOption === '🌱' && humanOption === '💦')) {
                 return `Looks like I win, ${message.author.username}. Easy win, you suck.`

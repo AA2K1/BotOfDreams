@@ -2,10 +2,11 @@ const { MessageEmbed } = require('discord.js');
 let colours = require("../colours.json")
 module.exports = {
     name: "say",
+    cooldown: 3,
     aliases: ["echo", "repeat"],
     category: "info",
     description: "Repeats what user inputs",
-    execute(message, args, client) {
+    run: async (message, args, client) => {
         if (args.length < 1) {
             return (message.reply("Kinda hard to say something if you didn't tell me what to say."));
         }

@@ -3,6 +3,7 @@ const randomPuppy = require('random-puppy');
 let colours = require("../colours.json")
 module.exports = {
     name: "reddit",
+    cooldown: 15,
     aliases: ["imagereddit"],
     category: "fun",
     description: "Shows an image from any image subreddit.",

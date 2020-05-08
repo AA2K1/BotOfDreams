@@ -1,10 +1,10 @@
-
 module.exports = {
     name: "blip",
-    aliases: ["ping"],
+    aliases: ['ping'],
+    cooldown: 3,
     category: "info",
     description: "Returns latency and API ping",
-    execute(message, args, client) {
+    run: async (message, args, client) => {
         message.channel.send(`Blop\nAPI Latency: ${Math.round(client.ws.ping)}`);
     }
 }

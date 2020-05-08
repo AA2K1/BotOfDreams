@@ -3,8 +3,9 @@ const { MessageEmbed } = require("discord.js");
 let colours = require("../colours.json");
 module.exports = {
     name: "level",
+    cooldown: 3,
     aliases: ["lvl", "stats"],
-    category: "rpg",
+    category: "stats",
     description: "Returns level, and xp until next level.",
 
     run: async (message, args, client, prefix, nxtLvl) => {

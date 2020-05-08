@@ -1,10 +1,17 @@
 const { Client, MessageEmbed, Collection } = require("discord.js");
 const { config } = require("dotenv");
+const mongoose = require('mongoose');
+const Money = require('./models/money');
+mongoose.connect('mongodb://localhost:27017/CoinDB', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 const fs = require('fs');
 let xp = require('./xp.json');
 let classes = require('./classes.json');
 let coins = require('./coins.json');
 let colours = require('./colours.json');
+let cdSeconds = 10;
 const toNxtLvl = Math.floor(Math.random() * 300) + 50;
 const client = new Client({
     disableEveryone: true
@@ -12,10 +19,11 @@ const client = new Client({
 
 client.commands = new Collection();
 client.aliases = new Collection();
+let cooldowns = new Collection();
 
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
-for(const file of commandFiles){
+for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     client.commands.set(command.name, command);
     client.commands.set(command.aliases, client.aliases);
@@ -25,17 +33,8 @@ config({
     path: __dirname + "/.env"
 })
 
-client.on("ready", () => {
+client.once("ready", async () => {
     console.log(`Let us start the game, ${client.user.username}`);
-    client.on("ready", () => {
-        client.user.setPresence({
-            game: { 
-                name: 'memes',
-                type: 'WATCHING'
-            },
-            status: 'idle'
-        })
-    });
 });
 
 client.on("message", async message => {
@@ -43,183 +42,137 @@ client.on("message", async message => {
 })
 
 client.on("message", async message => {
-    const prefix = 'lmao'
+    const prefix = '//';
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();
+    if (message.mentions.members.username == client.user.username) {
+        client.commands.get('help').run(message, args, client, prefix);
+    }
 
     if (message.author.bot) return;
     if (!message.guild) return;
-    if (!message.content.startsWith(prefix)) return;
     if (!message.member) message.member = await message.guild.fetchMember(message);
-    //if(cmd.length === 0) return;
-
     //------------------------------------------------------------------------------
-    if(!coins[message.author.id]) {
-        coins[message.author.id] = {
-            coins: 0
-        };
-    }
-    
-    let coinAmt = Math.floor(Math.random() * 15) + 10;
-    let baseAmt = Math.floor(Math.random() * 15) + 10;
-    console.log(`${coinAmt}:${baseAmt}`);
+    // if (!xp[message.author.id]) {
+    //     xp[message.author.id] = {
+    //         xp: 0,
+    //         level: 1,
+    //         stats: {
+    //             strength: 10,
+    //             wit: 10,
+    //             vitality: 20,
+    //             agility: 10,
+    //             magic: 10
+    //         }
+    //     };
+    // }
 
-    if(coinAmt === baseAmt) {
-        coins[message.author.id] = {
-            coins: coins[message.author.id].coins + coinAmt
-        };
-        fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
-            if (err) console.log(err)
-        });
-        let coinEmbed = new MessageEmbed()
-            .setAuthor(message.author.username)
-            .setColor(colours.economy)
-            .addField("🤑 🤑 🤑 🤑 🤑", `${coinAmt} DreamCoin(s) have been transfered to you!`)
-        message.channel.send(coinEmbed)
-    }
+    // let xpAdd = Math.floor(Math.random() * 5) + 15;
+    // let curLvl = xp[message.author.id].level;
+    // const nxtLvl = curLvl * toNxtLvl;
+    // if (cmd.length !== 0) {
+    //     xp[message.author.id].xp += xpAdd
+    // }
+    // let curStats = xp[message.author.id].stats;
+    // console.log(nxtLvl);
+
+    // if (nxtLvl <= xp[message.author.id].xp) {
+    //     xp[message.author.id].level = curLvl + 1;
+    //     xp[message.author.id].xp = 0;
+    //     let nxtStrength = curStats.strength += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
+    //     let nxtWit = curStats.wit += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
+    //     let nxtVital = curStats.vitality += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
+    //     let nxtAgility = curStats.agility += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
+    //     let nxtMagic = curStats.magic += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
+    //     let lvlUp = new MessageEmbed()
+    //         .setColor(colours.stats)
+    //         .setTitle(`🎺🎺 ${message.author.username} leveled up! 🎺🎺`)
+    //         .setDescription(`**Level:** ${xp[message.author.id].level}\n**XP until Next LvL:** ${xp[message.author.id].level * Math.floor(Math.random() * 300) + 305}`)
+    //         .addField("**Stats: **", `Strength: ${nxtStrength}\nWit: ${nxtWit}\nVitality: ${nxtVital}\nAgility: ${nxtAgility}\nMagic: ${nxtMagic}\n`)
+    //     message.channel.send(lvlUp)
+    // }
+
+    // fs.writeFile("./xp.json", JSON.stringify(xp), (err) => {
+    //     if (err) console.log(err)
+    // });
     //------------------------------------------------------------------------------
-    if(!xp[message.author.id]) {
-        xp[message.author.id] = {
-            xp: 0,
-            level: 1,
-            stats: {
-                strength: 10,
-                wit: 10,
-                vitality: 20,
-                agility: 10,
-                magic: 10
-            }
-        };
-    }
-
-    let xpAdd = Math.floor(Math.random() * 5) + 15;
-    let curLvl = xp[message.author.id].level;
-    const nxtLvl = curLvl * toNxtLvl;
-    if(cmd.length !== 0) {
-        xp[message.author.id].xp += xpAdd
-    }
-    let curStats = xp[message.author.id].stats;
-    console.log(nxtLvl);
-
-    if(nxtLvl <= xp[message.author.id].xp) {
-        xp[message.author.id].level = curLvl + 1;
-        xp[message.author.id].xp = 0;
-        let nxtStrength = curStats.strength += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
-        let nxtWit = curStats.wit += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
-        let nxtVital = curStats.vitality += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
-        let nxtAgility = curStats.agility += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
-        let nxtMagic = curStats.magic += xp[message.author.id].level * Math.floor(Math.random() * 3) + 7;
-        let lvlUp = new MessageEmbed() 
-            .setColor(colours.stats)
-            .setTitle(`🎺🎺 ${message.author.username} leveled up! 🎺🎺`)
-            .setDescription(`**Level:** ${xp[message.author.id].level}\n**XP until Next LvL:** ${xp[message.author.id].level * Math.floor(Math.random() * 300) + 305}`)
-            .addField("**Stats: **", `Strength: ${nxtStrength}\nWit: ${nxtWit}\nVitality: ${nxtVital}\nAgility: ${nxtAgility}\nMagic: ${nxtMagic}\n`)
-        message.channel.send(lvlUp)
-    }
-
-    fs.writeFile("./xp.json", JSON.stringify(xp), (err) => {
-        if(err) console.log(err)
-    });
-    //------------------------------------------------------------------------------
-    if(!classes[message.author.id]) {
+    if (!classes[message.author.id]) {
         classes[message.author.id] = {
             class: 'peasant'
         }
         fs.writeFile("./classes.json", JSON.stringify(classes), (err) => {
-            if(err) console.log(err)
+            if (err) console.log(err)
         });
     }
     //------------------------------------------------------------------------------
-    switch(cmd) {
-        case 'blip':
-            client.commands.get('blip').execute(message, args, client);
-        break;
-        case 'ping':
-            client.commands.get('blip').execute(message, args, client);
-        break;
-        case 'say':
-            client.commands.get('say').execute(message, args, client);
-        break;
-        case 'echo':
-            client.commands.get('say').execute(message, args, client);
-        break;
-        case 'repeat':
-            client.commands.get('say').execute(message, args, client);
-        break;
-        case 'userinfo':
-            client.commands.get('userinfo').execute(message, args, client);
-        break;
-        case 'aboutme':
-            client.commands.get('userinfo').execute(message, args, client);
-        break;
-        case 'website':
-            client.commands.get('website').execute(message, args, client);    
-        break;
-        case 'aa2k': 
-            client.commands.get('website').execute(message, args, client);    
-        break;
-        case 'help':
+    if (!cooldowns.has(cmd.name)) {
+        cooldowns.set(cmd.name, new Collection());
+    }
+
+    const now = Date.now();
+    const timestamps = cooldowns.get(cmd.name);
+    const cooldownAmount = (cmd.cooldown || 3) * 1000;
+
+    if (timestamps.has(message.author.id)) {
+        const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+
+        if (now < expirationTime) {
+            const timeLeft = (expirationTime - now) / 1000;
+            let embed = new MessageEmbed()
+            .setColor(colours.info)
+            .setTitle(`Cooldown for ${message.author.username}:`)
+            .setDescription(`Hold your horses there, you gotta wait ${timeLeft.toFixed(1)} second(s) before you can use ${cmd} again.`)
+            .setTimestamp()
+            .setFooter(client.user.username, client.user.displayAvatarURL())
+            return message.channel.send(embed);
+        }
+    }
+    if (message.content.startsWith(prefix)) {
+        timestamps.set(message.author.id, now);
+        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+        let coinAmt = Math.floor(Math.random() * 15) + 30;
+        let baseAmt = Math.floor(Math.random() * 15) + 30;
+        console.log(`${coinAmt}:${baseAmt}`);
+        if (coinAmt === baseAmt) {
+            Money.findOne({
+                userID: message.author.id,
+                serverID: message.guild.id
+            }, (err, money) => {
+                if (err) console.log(err)
+                if (!money) {
+                    const newMoney = new Money({
+                        userID: message.author.id,
+                        serverID: message.guild.id,
+                        money: coinAmt
+                    })
+
+                    newMoney.save().catch(err => console.log(err));
+                    message.reply('your money has been saved in a database.')
+                } else {
+                    money.money = money.money + coinAmt;
+                    money.save().catch(err => console.log(err));
+                }
+            })
+            let coinEmbed = new MessageEmbed()
+                .setAuthor(message.author.username)
+                .setColor(colours.economy)
+                .addField("🤑 🤑 🤑 🤑 🤑", `${coinAmt} DreamCoin(s) have been transfered to you!`)
+                .setTimestamp()
+                .setFooter(client.user.username, client.user.displayAvatarURL())
+            message.channel.send(coinEmbed)
+        }
+        let commandfile = client.commands.get(cmd) || client.commands.find(c => c.aliases && c.aliases.includes(cmd));
+        if (commandfile) {
+            commandfile.run(message, args, client, prefix);
+        } else {
+            return;
+        }
+    } else {
+        const mention = message.mentions.users.first();
+        if (mention.id == client.user.id) {
             client.commands.get('help').run(message, args, client, prefix);
-        break;
-        case 'botinfo':
-            client.commands.get('help').run(message, args, client, prefix);
-        break;
-        case 'meme':
-            client.commands.get('meme').run(message, args, client);
-        break;
-        case 'memes':
-            client.commands.get('meme').run(message, args, client);
-        break;
-        case 'maymay':
-            client.commands.get('meme').run(message, args, client);
-        break;
-        case 'randommeme':
-            client.commands.get('meme').run(message, args, client);
-        break;
-        case 'reddit':
-            client.commands.get('reddit').run(message, args, client);
-        break;
-        case 'imagereddit':
-            client.commands.get('reddit').run(message, args, client);
-        break;
-        case 'rps':
-            client.commands.get('rps').run(message, args, client);
-        break;
-        case 'rockpaperscissors':
-            client.commands.get('rps').run(message, args, client);
-        break;
-        case 'coins':
-            client.commands.get('coins').run(message, args, client, prefix);
-        break;
-        case 'coin':
-            client.commands.get('coins').run(message, args, client, prefix);
-        break;
-        case 'balance':
-            client.commands.get('coins').run(message, args, client, prefix);
-        break;
-        case 'bal':
-            client.commands.get('coins').run(message, args, client, prefix);
-        break;
-        case 'level':
-            client.commands.get('level').run(message, args, client, prefix, nxtLvl);
-        break;
-        case 'lvl':
-            client.commands.get('level').run(message, args, client, prefix, nxtLvl);
-        break;
-        case 'stats':
-            client.commands.get('level').run(message, args, client, prefix, nxtLvl);
-        break;
-        case 'chooseclass':
-            client.commands.get('chooseclass').run(message, args, client);
-        break;
-        case 'class':
-            client.commands.get('chooseclass').run(message, args, client);
-        break;
-        default:
-            message.reply("Hey dumb-dumb, that's not a command 🤦");
+        }
     }
 });
-
-
 
 client.login(process.env.TOKEN);

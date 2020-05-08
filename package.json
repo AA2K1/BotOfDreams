@@ -24,6 +24,8 @@
     "fs": "0.0.1-security",
     "moment": "^2.25.1",
     "mongoose": "^5.9.12",
-    "random-puppy": "^1.1.0"
+    "random-puppy": "^1.1.0",
+    "sequelize": "^5.21.7",
+    "sqlite3": "^4.2.0"
   }
 }

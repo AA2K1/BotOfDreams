@@ -2,10 +2,11 @@ const { MessageEmbed } = require('discord.js');
 let colours = require("../colours.json")
 module.exports = {
     name: "userinfo",
+    cooldown: 5,
     aliases: ["aboutme"],
     category: "info",
     description: "Returns info about the user that sends the command",
-    execute(message, args, client) {
+    run: async (message, args, client) => {
         let user = message.mentions.users.first() || message.author;
 
         let userinfo = {};

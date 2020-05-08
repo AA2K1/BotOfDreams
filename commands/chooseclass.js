@@ -12,8 +12,9 @@ let agilityIncrease;
 let magicIncrease;
 
 module.exports = {
-    name: 'chooseclass',
-    aliases: ['class'],
+    name: 'class',
+    aliases: ['chooseclass'],
+    cooldown: 20,
     category: 'rpg',
     description: 'Lets you choose a class, which influences stats.',
 
