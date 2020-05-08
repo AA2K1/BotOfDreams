@@ -42,7 +42,7 @@ client.on("message", async message => {
 })
 
 client.on("message", async message => {
-    const prefix = '//';
+    const prefix = 'lmao';
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();
     if (message.mentions.members.username == client.user.username) {
@@ -168,9 +168,11 @@ client.on("message", async message => {
             return;
         }
     } else {
-        const mention = message.mentions.users.first();
+        const mention = message.mentions.users.first() || message.author;
         if (mention.id == client.user.id) {
             client.commands.get('help').run(message, args, client, prefix);
+        } else {
+            return;
         }
     }
 });
