@@ -36,12 +36,13 @@ module.exports = {
             .addField("Userinfo", "Returns information about the user.")
             .addField("**Category: Fun**", "-------------------------------")
             .addField("Meme", "Shows a fresh random meme for your viewing.")
-            .addField("Reddit", "Shows a post from any image subreddit in randompuppy. Arguments must be in all lowercase.")
+            .addField("Reddit", "Shows a post in any image subreddit")
             .addField("RPS", "Plays a nice, friendly game of rock paper scissors.")
             .addField("**Category: Stats**", "-------------------------------")
             .addField("Coins", "Shows how many coins you or someone has.")
             .addField("ChooseClass", "Lets you choose a class, which influences stats.")
             .addField("Leaderboard", "Shows richest in a server in terms of coins.")
+            .addField("RemoveClass", "Removes the class that you have so that you can pick another one, but will wipe your stats.")
         message.channel.send(embed1)
         }
     }
