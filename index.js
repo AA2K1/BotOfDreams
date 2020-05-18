@@ -80,7 +80,7 @@ client.on("message", async message => {
 
   const now = Date.now();
   const timestamps = cooldowns.get(cmd.name);
-  const cooldownAmount = (cmd.cooldown || 3) * 1000;
+  const cooldownAmount = (client.commands.get(cmd).cooldown || 3) * 1000;
 
   if (timestamps.has(message.author.id) && message.content.startsWith(prefix)) {
     const expirationTime = timestamps.get(message.author.id) + cooldownAmount;

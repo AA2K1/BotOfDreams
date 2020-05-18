@@ -20,7 +20,7 @@ mongoose.connect(MONGODB_URI || "mongodb://localhost:27017/CoinDB", {
 module.exports = {
   name: "battle",
   aliases: ["fight"],
-  cooldown: 3,
+  cooldown: 5400,
   category: "stats",
   description: "Fights another player. Can get money and xp.",
   run: async (message, args, client) => {

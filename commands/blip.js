@@ -1,7 +1,7 @@
 module.exports = {
     name: "blip",
     aliases: ['ping'],
-    cooldown: 3,
+    cooldown: 15,
     category: "info",
     description: "Returns latency and API ping",
     run: async (message, args, client) => {
