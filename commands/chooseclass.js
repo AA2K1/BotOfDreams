@@ -1,123 +1,171 @@
-let { MessageEmbed } = require('discord.js');
-const fs = require('fs');
-let classes = require('../classes.json');
-let colours = require('../colours.json');
-let xp = require('../xp.json');
-const { promptMessage } = require('../functions.js');
-const emojiCharacters = require('../emojichraracters.js');
+let { MessageEmbed } = require("discord.js");
+const fs = require("fs");
+let classes = require("../classes.json");
+let colours = require("../colours.json");
+let xp = require("../xp.json");
+const { promptMessage } = require("../functions.js");
+const emojiCharacters = require("../emojichraracters.js");
+const Player = require("../models/player");
+const mongoose = require("mongoose");
+const MONGODB_URI =
+  "mongodb+srv://" +
+  process.env.atlasusername +
+  ":" +
+  process.env.atlaspass +
+  "@" +
+  process.env.host +
+  "/test?retryWrites=true&w=majority";
+mongoose.connect(MONGODB_URI || "mongodb://localhost:27017/CoinDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 let strengthincrease;
-let witIncrease;
 let vitalIncrease;
 let agilityIncrease;
 let magicIncrease;
 
 module.exports = {
-    name: 'class',
-    aliases: ['chooseclass'],
-    cooldown: 20,
-    category: 'rpg',
-    description: 'Lets you choose a class, which influences stats.',
+  name: "class",
+  aliases: ["chooseclass"],
+  cooldown: 45,
+  category: "stats",
+  description: "Lets you choose a class, which influences stats.",
 
-    run: async (message, args, client) => {
-        if(!classes[message.author.id]) {
-            classes[message.author.id] = {
-                class: 'peasant',
-                statIncreases: {
-                    strength: 0,
-                    wit: 0,
-                    vitality: 0,
-                    agility: 0,
-                    magic: 0
-                }
+  run: async (message, args, client) => {
+    let classesPool = ["🧙‍♂️", "⚔️", "💗", "🕵️"];
+    Player.findOne(
+      {
+        userID: message.author.id,
+        serverID: message.guild.id
+      },
+      (err, stats) => {
+        if (err) console.log(err);
+        if (!stats) {
+          const newPlayer = new Player({
+            userID: message.author.id,
+            username: message.member.user.tag,
+            serverID: message.guild.id,
+            level: 1,
+            xp: 0,
+            class: "peasant",
+            stats: {
+              strength: 5,
+              magic: 0,
+              vitality: 10,
+              maxvitality: 10,
+              agility: 10
             }
-        }
-        let classesPool = ['🧙‍♂️', '⚔️', '💗', '🕵️'];
-        let chooseClassEmbed = new MessageEmbed()
+          });
+
+          newPlayer.save().catch(err => console.log(err));
+          message.reply("your stats are saved.");
+          let lvlUp = new MessageEmbed()
             .setColor(colours.stats)
-            .setTitle('**Pick a class: React to this message to pick your class.**')
-            .setDescription(`🧙‍♂️: Mage\n\n⚔️: Warrior\n\n💗: Cleric\n\n🕵️: Thief\n\n`)
+            .setTitle(`${message.author.username} has gained his first XP!`)
+            .setDescription(
+              `These first stats will be the stepping stone for your success as a fighter.`
+            )
             .setTimestamp()
-            .setFooter(client.user.username, client.user.displayAvatarURL())
-        let m = await message.channel.send(chooseClassEmbed);
-        const reacted = await promptMessage(m, message.author, 30, classesPool)
-        const classchoice = choice(reacted)
-        let classEmbed = new MessageEmbed() 
+            .setFooter(client.user.username, client.user.displayAvatarURL());
+          message.channel.send(lvlUp).then(m => m.delete({ timeout: 25000 }));
+        } else {
+          if (stats.class === "peasant") {
+            message.reply(
+              "you can only pick your class once. Are you willing to choose it now? Yes: type y. No: type n."
+            );
+            const filter = m =>
+              m.content.includes("y") || m.content.includes("n");
+            const collector = message.channel.createMessageCollector(filter, {
+              time: 10000
+            });
+
+            collector.on("collect", m => {
+              if (m.content == 'y') {
+                getClass();
+              } else if (m.content == 'n') {
+                message.channel.send(
+                  "It seems you will wait until next time. Until then."
+                );
+              }
+            });
+          } else {
+            message.reply("Hey! You already have a class! It's " + stats.class);
+          }
+        }
+        async function getClass() {
+          let chooseClassEmbed = new MessageEmbed()
+            .setColor(colours.stats)
+            .setTitle(
+              "**Pick a class: React to this message to pick your class.**"
+            )
+            .setDescription(
+              `🧙‍♂️: Mage\n\n⚔️: Warrior\n\n💗: Cleric\n\n🕵️: Thief\n\n`
+            )
+            .setTimestamp()
+            .setFooter(client.user.username, client.user.displayAvatarURL());
+          let m = await message.channel.send(chooseClassEmbed);
+          const reacted = await promptMessage(
+            m,
+            message.author,
+            30,
+            classesPool
+          );
+          const classchoice = choice(reacted);
+          stats.save().catch(err => console.log(err));
+          let classEmbed = new MessageEmbed()
             .setColor(colours.stats)
             .setTitle(`**${message.author.username}'s class is: **`)
             .setDescription(`${classchoice}!`)
-            .addField(`**Stat Increases: **`, `Strength increase: ${strengthincrease}\n Wit increase: ${witIncrease }\n Vitality increase: ${vitalIncrease}\n Agility increase: ${agilityIncrease}\n Magic increase: ${magicIncrease}\n`)
+            .addField(
+              `**Stats: **`,
+              `Strength: ${stats.stats.get(
+                "strength"
+              )}\nMagic: ${stats.stats.get(
+                "magic"
+              )}\nVitality: ${stats.stats.get(
+                "vitality"
+              )}/${stats.stats.get('maxvitality')}\nAgility: ${stats.stats.get("agility")}\n`
+            )
             .setTimestamp()
-            .setFooter(client.user.username, client.user.displayAvatarURL())
-        message.channel.send(classEmbed)
-
-        fs.writeFile("./classes.json", JSON.stringify(classes), (err) => {
-            if(err) console.log(err)
-        });
-
-
-
-        function choice(choice) {
-            if(choice === '🧙‍♂️') {
-                classes[message.author.id].class = 'mage';
-                strengthincrease = 1;
-                witIncrease = 5;
-                vitalIncrease = 2;
-                agilityIncrease = 7;
-                magicIncrease = 10;
-                xp[message.author.id].stats = {
-                    strength: xp[message.author.id].stats.strength + strengthincrease,
-                    wit: xp[message.author.id].stats.wit + witIncrease,
-                    vitality: xp[message.author.id].stats.vitality + vitalIncrease,
-                    agility: xp[message.author.id].stats.agility + agilityIncrease,
-                    magic: xp[message.author.id].stats.magic + magicIncrease
-                }
-                return 'Mage 🧙‍♂️';
-            } else if(choice === '⚔️') {
-                classes[message.author.id].class = 'warrior';
-                strengthincrease = 8;
-                witIncrease = 1;
-                vitalIncrease = 5;
-                agilityIncrease = 3;
-                magicIncrease = 0;
-                xp[message.author.id].stats = {
-                    strength: xp[message.author.id].stats.strength + strengthincrease,
-                    wit: xp[message.author.id].stats.wit + witIncrease,
-                    vitality: xp[message.author.id].stats.vitality + vitalIncrease,
-                    agility: xp[message.author.id].stats.agility + agilityIncrease,
-                    magic: xp[message.author.id].stats.magic + magicIncrease
-                }
-                return 'Warrior ⚔️';
-            } else if(choice === '💗') {
-                classes[message.author.id].class = 'cleric';
-                strengthincrease = 0;
-                witIncrease = 6;
-                vitalIncrease = 10;
-                agilityIncrease = 4;
-                magicIncrease = 7;
-                xp[message.author.id].stats = {
-                    strength: xp[message.author.id].stats.strength + strengthincrease,
-                    wit: xp[message.author.id].stats.wit + witIncrease,
-                    vitality: xp[message.author.id].stats.vitality + vitalIncrease,
-                    agility: xp[message.author.id].stats.agility + agilityIncrease,
-                    magic: xp[message.author.id].stats.magic + magicIncrease
-                }
-                return 'Cleric 💗';
-            } else if(choice === '🕵️') {
-                classes[message.author.id].class = 'thief';
-                strengthincrease = 5;
-                witIncrease = 7;
-                vitalIncrease = 5;
-                agilityIncrease = 10;
-                magicIncrease = 3;
-                xp[message.author.id].stats = {
-                    strength: xp[message.author.id].stats.strength + strengthincrease,
-                    wit: xp[message.author.id].stats.wit + witIncrease,
-                    vitality: xp[message.author.id].stats.vitality + vitalIncrease,
-                    agility: xp[message.author.id].stats.agility + agilityIncrease,
-                    magic: xp[message.author.id].stats.magic + magicIncrease
-                }
-                return 'Thief 🕵️';
-            }
+            .setFooter(client.user.username, client.user.displayAvatarURL());
+          message.channel.send(classEmbed);
         }
-    }
-}
+        function choice(choice) {
+          if (choice === "🧙‍♂️") {
+            stats.class = "mage";
+            stats.stats.set("strength", stats.stats.get("strength") + 1);
+            stats.stats.set("maxvitality", stats.stats.get("maxvitality") + 2);
+            stats.stats.set('vitality', stats.stats.get('maxvitality'));
+            stats.stats.set("agility", stats.stats.get("agility") + 7);
+            stats.stats.set("magic", stats.stats.get("magic") + 10);
+            return "Mage 🧙‍♂️";
+          } else if (choice === "⚔️") {
+            stats.class = "warrior";
+            stats.stats.set("strength", stats.stats.get("strength") + 8);
+            stats.stats.set("maxvitality", stats.stats.get("maxvitality") + 5);
+            stats.stats.set('vitality', stats.stats.get('maxvitality'));
+            stats.stats.set("agility", stats.stats.get("agility") + 3);
+            stats.stats.set("magic", 2);
+            return "Warrior ⚔️";
+          } else if (choice === "💗") {
+            stats.class = "cleric";
+            stats.stats.set("strength", stats.stats.get("strength") + 1);
+            stats.stats.set("maxvitality", stats.stats.get("maxvitality") + 10);
+            stats.stats.set('vitality', stats.stats.get('maxvitality'));
+            stats.stats.set("agility", stats.stats.get("agility") + 4);
+            stats.stats.set("magic", stats.stats.get("magic") + 7);
+            return "Cleric 💗";
+          } else if (choice === "🕵️") {
+            stats.class = "thief";
+            stats.stats.set("strength", stats.stats.get("strength") + 4);
+            stats.stats.set("maxvitality", stats.stats.get("maxvitality") + 4);
+            stats.stats.set('vitality', stats.stats.get('maxvitality'));
+            stats.stats.set("agility", stats.stats.get("agility") + 8);
+            stats.stats.set("magic", stats.stats.get("magic") + 1);
+            return "Thief 🕵️";
+          }
+        }
+      }
+    );
+  }
+};
