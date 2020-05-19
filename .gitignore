@@ -2,3 +2,5 @@ node_modules
 .env
 coins.json
 xp.json
+Procfile
+watch.json
