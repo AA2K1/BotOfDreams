@@ -1,3 +1,12 @@
-Bot of Dreams!
+# Bot Of Dreams!
 
-This is a bot designed for both memes and a text adventure. 
+Bot of Dreams is a Discord bot made with Disord.js
+
+## Usage
+```bash
+To learn about a command list, @ the bot by doing:
+@BotOfDreams. That will show the help command
+```
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
