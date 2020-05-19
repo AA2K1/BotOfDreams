@@ -12,7 +12,7 @@ mongoose.connect(MONGODB_URI || 'mongodb://localhost:27017/CoinDB', {
 module.exports = {
     name: "leaderboard",
     aliases: ['lb', 'rich'],
-    cooldown: 10,
+    cooldown: 50,
     category: "stats",
     description: "Shows richest in a server in terms of coins.",
     run: async (message, args, client) => {
@@ -33,7 +33,7 @@ module.exports = {
                 embed.setDescription("ERROR: No data found. Use other bot commands to get coins")
             } else if (res.length < 5) {
                 embed.setColor(colours.economy)
-                for (i = 0; i < res.length; i++) {
+                for (let i = 0; i < res.length; i++) {
                     let member = message.guild.members.cache.get(res[i].userID) || "User left";
                     if (member == "User left") {
                         embed.addField(`${i + 1}. ${member}`, `**Dreamcoins:** ${res[i].money}`)
@@ -51,7 +51,7 @@ module.exports = {
                 }
             } else {
                 embed.setColor(colours.economy)
-                for (i = 0; i < 5; i++) {
+                for (let i = 0; i < 5; i++) {
                     let member = message.guild.members.cache.get(res[i].userID) || "User left";
                     if (member == "User left") {
                         embed.addField(`${i + 1}. ${member}`, `**Dreamcoins:** ${res[i].money}`)

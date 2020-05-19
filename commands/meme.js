@@ -3,7 +3,7 @@ const snekfetch = require("snekfetch");
 const colours = require("../colours.json");
 module.exports = {
   name: "meme",
-  cooldown: 15,
+  cooldown: 5,
   category: "fun",
   aliases: ["maymay", "randommeme", "memes"],
   description: "Sends a random dank meme through an embed",

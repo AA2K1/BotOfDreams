@@ -1,3 +1,13 @@
+var http = require('http');
+
+http.createServer(function(request, response){
+
+    //The following code will print out the incoming request text
+    request.pipe(response);
+
+}).listen(1988, '127.0.0.1');
+
+console.log('Listening on port 1988...');
 const {
   Client,
   MessageEmbed,
@@ -66,34 +76,39 @@ client.on("message", async message => {
     .trim()
     .split(/ +/g);
   const cmd = args.shift().toLowerCase();
+  const command =
+    client.commands.get(cmd) ||
+    client.commands.find(c => c.aliases && c.aliases.includes(cmd));
   if (message.mentions.members.username == client.user.username) {
     client.commands.get("help").run(message, args, client, prefix);
   }
 
   if (message.author.bot) return;
+  if (!message.content.startsWith(prefix)) return;
   if (!message.guild) return;
   if (!message.member)
     message.member = await message.guild.fetchMember(message);
-  if (!cooldowns.has(cmd.name)) {
-    cooldowns.set(cmd.name, new Collection());
+  if (!cooldowns.has(command.name)) {
+    cooldowns.set(command.name, new Collection());
   }
 
   const now = Date.now();
-  const timestamps = cooldowns.get(cmd.name);
-  const cooldownAmount = (cmd.cooldown || 3) * 1000;
+  const timestamps = cooldowns.get(command.name);
+  const cooldownAmount = (command.cooldown || 30) * 1000;
 
-  if (timestamps.has(message.author.id) && message.content.startsWith(prefix)) {
+  if (timestamps.has(message.author.id)) {
     const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 
     if (now < expirationTime) {
       const timeLeft = (expirationTime - now) / 1000;
-      let embed = new MessageEmbed()
+      const embed = new MessageEmbed()
         .setColor(colours.info)
-        .setTitle(`Cooldown for ${message.author.username}:`)
+        .setTitle(`Hold your horses there, ${message.author.username}.`)
+        .setThumbnail(message.author.displayAvatarURL())
         .setDescription(
-          `Hold your horses there, you gotta wait ${timeLeft.toFixed(
+          `**You gotta wait \`${timeLeft.toFixed(
             1
-          )} second(s) before you can use ${cmd} again.`
+          )}\` second(s) before using \`${cmd}\` again.**`
         )
         .setTimestamp()
         .setFooter(client.user.username, client.user.displayAvatarURL());
@@ -103,8 +118,8 @@ client.on("message", async message => {
   if (message.content.startsWith(prefix)) {
     timestamps.set(message.author.id, now);
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-    let coinAmt = Math.floor(Math.random() * 15) + 30;
-    let baseAmt = Math.floor(Math.random() * 15) + 30;
+   let coinAmt = Math.floor(Math.random() * 15) + 30;
+   let baseAmt = Math.floor(Math.random() * 15) + 30;
     console.log(`${coinAmt}:${baseAmt}`);
     if (coinAmt === baseAmt) {
       Money.findOne(
@@ -117,43 +132,38 @@ client.on("message", async message => {
           if (!money) {
             const newMoney = new Money({
               userID: message.author.id,
+              username: message.author.tag,
               serverID: message.guild.id,
               money: coinAmt
             });
 
             newMoney.save().catch(err => console.log(err));
             let firstCoinEmbed = new MessageEmbed()
-              .setAuthor(message.author.username)
+              .setAuthor(`🤑${message.author.username}🤑`)
               .setColor(colours.economy)
-              .addField(
-                "🤑 🤑 🤑 🤑 🤑",
-                `${coinAmt} DreamCoin(s) have been transfered to you! Your first Dreamcoins too! Hope you use it well.`
-              )
+              .setDescription(`**${coinAmt}** coins are yours! And they're your first! You can get more of these by using commands.`)
               .setTimestamp()
               .setFooter(client.user.username, client.user.displayAvatarURL());
             message.channel.send(firstCoinEmbed);
           } else {
+            let coinEmbed = new MessageEmbed()
+              .setAuthor(`🤑${message.author.username}🤑`)
+              .setColor(colours.economy)
+              .setDescription(`**${coinAmt}** coins are yours!`)
+              .setTimestamp()
+              .setFooter(client.user.username, client.user.displayAvatarURL());
+            message.channel.send(coinEmbed);
             money.money = money.money + coinAmt;
             money.save().catch(err => console.log(err));
           }
         }
       );
-      let coinEmbed = new MessageEmbed()
-        .setAuthor(message.author.username)
-        .setColor(colours.economy)
-        .addField(
-          "🤑 🤑 🤑 🤑 🤑",
-          `${coinAmt} DreamCoin(s) have been transfered to you!`
-        )
-        .setTimestamp()
-        .setFooter(client.user.username, client.user.displayAvatarURL());
-      message.channel.send(coinEmbed);
     }
     let commandfile =
       client.commands.get(cmd) ||
       client.commands.find(c => c.aliases && c.aliases.includes(cmd));
     if (commandfile) {
-      commandfile.run(message, args, client, prefix);
+      commandfile.run(message, args, client, prefix, cmd);
     } else {
       return;
     }
@@ -270,5 +280,10 @@ client.on("message", async message => {
     return;
   }
 });
+client.on('disconnect', () => console.error('Connection lost...'));
+client.on('reconnecting', () => console.log('Attempting to reconnect...'));
+client.on('error', error => console.error(error));
+client.on('warn', info => console.error(info));
+// client.on('debug', info => console.log(info));
 
 client.login(process.env.TOKEN);

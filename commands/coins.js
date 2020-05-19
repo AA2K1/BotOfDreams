@@ -12,13 +12,14 @@ mongoose.connect(MONGODB_URI || 'mongodb://localhost:27017/CoinDB', {
 module.exports = {
     name: "coins",
     aliases: ["coin", "balance", "bal"],
-    cooldown: 3,
+    cooldown: 10,
     category: "stats",
     description: "Shows how many coins someone has.",
     run: async (message, args, client, prefix) => {
         const target = message.mentions.users.first() || message.author;
         Money.findOne({
             userID: target.id,
+            username: target.tag,
             serverID: message.guild.id
         }, (err, money) => {
             if (err) console.log(err)

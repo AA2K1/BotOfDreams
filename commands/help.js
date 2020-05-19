@@ -3,7 +3,7 @@ let colours = require("../colours.json")
 module.exports = {
     name: "help",
     aliases: ["botinfo"],
-    cooldown: 3,
+    cooldown: 5,
     category: "info",
     description: "Returns list of commands and prefix",
     run: async (message, args, client, prefix) => {
@@ -43,6 +43,7 @@ module.exports = {
             .addField("ChooseClass", "Lets you choose a class, which influences stats.")
             .addField("Leaderboard", "Shows richest in a server in terms of coins.")
             .addField("RemoveClass", "Removes the class that you have so that you can pick another one, but will wipe your stats.")
+            .addField("Battle", "Fights another player. Can get money and xp.")
         message.channel.send(embed1)
         }
     }

@@ -20,7 +20,7 @@ mongoose.connect(MONGODB_URI || "mongodb://localhost:27017/CoinDB", {
 module.exports = {
   name: "battle",
   aliases: ["fight"],
-  cooldown: 3,
+  cooldown: 5400,
   category: "stats",
   description: "Fights another player. Can get money and xp.",
   run: async (message, args, client) => {
@@ -51,7 +51,7 @@ module.exports = {
             if (err) console.log(err);
             reactionCollector();
             async function reactionCollector() {
-              let acceptOptions = ["👍", "🚫"];
+              let acceptOptions = ["✅", "🚫"];
               let acceptEmbed = new MessageEmbed()
                 .setColor(colours.stats)
                 .setTitle(`${target.username}'s Challenge`)
@@ -66,7 +66,7 @@ module.exports = {
                 );
               const m = await message.channel.send(acceptEmbed);
               const reacted = await promptMessage(m, target, 30, acceptOptions);
-              if (reacted === "👍") {
+              if (reacted === "✅") {
                 message.channel.send("Let us start the game.");
                 //put in logic to run function
                 let playerspeed = stats.stats.get("agility");
@@ -110,14 +110,17 @@ module.exports = {
                           if (!money) {
                             const newMoney = new Money({
                               userID: message.author.id,
+                              username: message.author.tag,
                               serverID: message.guild.id,
                               money: moneyGained
                             });
 
                             newMoney.save().catch(err => console.log(err));
-                            message.reply(
-                              "your money has been saved in a database."
-                            );
+                            let firstCoinEmbed = new MessageEmbed()
+                              .setColor(colours.economy)
+                              .setTitle(`${message.author.username}'s first coins!'`)
+                              .setDescription(`**A whopping ${moneyGained} coins! You can get more of these by using commands.`)
+                            message.channel.send(firstCoinEmbed).then(m => m.delete({timeout: 15000}))
                           } else {
                             money.money = money.money + moneyGained;
                             money.save().catch(err => console.log(err));
@@ -163,14 +166,17 @@ module.exports = {
                           if (!money) {
                             const newMoney = new Money({
                               userID: target.id,
+                              username: target.tag,
                               serverID: message.guild.id,
                               money: moneyGained
                             });
 
                             newMoney.save().catch(err => console.log(err));
-                            message.reply(
-                              "your money has been saved in a database."
-                            );
+                            let firstCoinEmbed = new MessageEmbed()
+                              .setColor(colours.economy)
+                              .setTitle(`${target.username}'s first coins!'`)
+                              .setDescription(`**A whopping ${moneyGained} coins! You can get more of these by using commands.`)
+                            message.channel.send(firstCoinEmbed).then(m => m.delete({timeout: 15000}))
                           } else {
                             money.money = money.money + moneyGained;
                             money.save().catch(err => console.log(err));
@@ -184,7 +190,10 @@ module.exports = {
                       );
                       break;
                     } else {
-                      await attack(message.author, target, message.author);
+                      let chance = Math.floor(Math.random() * 10)
+                      if(chance === 2) {
+                        message.channel.send('You missed!');
+                      } else await attack(message.author, target, message.author);
                     }
 
                     if (targetstats.stats.get("vitality") <= 0) {
@@ -220,14 +229,17 @@ module.exports = {
                           if (!money) {
                             const newMoney = new Money({
                               userID: message.author.id,
+                              username: message.author.tag,
                               serverID: message.guild.id,
                               money: moneyGained
                             });
 
                             newMoney.save().catch(err => console.log(err));
-                            message.reply(
-                              "your money has been saved in a database."
-                            );
+                            let firstCoinEmbed = new MessageEmbed()
+                              .setColor(colours.economy)
+                              .setTitle(`${message.author.username}'s first coins!'`)
+                              .setDescription(`**A whopping ${moneyGained} coins! You can get more of these by using commands.`)
+                            message.channel.send(firstCoinEmbed).then(m => m.delete({timeout: 15000}))
                           } else {
                             money.money = money.money + moneyGained;
                             money.save().catch(err => console.log(err));
@@ -273,14 +285,17 @@ module.exports = {
                           if (!money) {
                             const newMoney = new Money({
                               userID: target.id,
+                              username: target.tag,
                               serverID: message.guild.id,
                               money: moneyGained
                             });
 
                             newMoney.save().catch(err => console.log(err));
-                            message.reply(
-                              "your money has been saved in a database."
-                            );
+                            let firstCoinEmbed = new MessageEmbed()
+                              .setColor(colours.economy)
+                              .setTitle(`${target.username}'s first coins!'`)
+                              .setDescription(`**A whopping ${moneyGained} coins! You can get more of these by using commands.`)
+                            message.channel.send(firstCoinEmbed).then(m => m.delete({timeout: 15000}))
                           } else {
                             money.money = money.money + moneyGained;
                             money.save().catch(err => console.log(err));
@@ -294,7 +309,10 @@ module.exports = {
                       );
                       break;
                     } else {
-                      await attack(message.author, target, target);
+                      let chance = Math.floor(Math.random() * 10)
+                      if(chance === 2) {
+                        message.channel.send('You missed!');
+                      } else await attack(message.author, target, target);
                     }
                   }
                 } else if (targetspeed > playerspeed) {
@@ -336,14 +354,17 @@ module.exports = {
                           if (!money) {
                             const newMoney = new Money({
                               userID: target.id,
+                              username: target.tag,
                               serverID: message.guild.id,
                               money: moneyGained
                             });
 
                             newMoney.save().catch(err => console.log(err));
-                            message.reply(
-                              "your money has been saved in a database."
-                            );
+                            let firstCoinEmbed = new MessageEmbed()
+                              .setColor(colours.economy)
+                              .setTitle(`${target.username}'s first coins!'`)
+                              .setDescription(`**A whopping ${moneyGained} coins! You can get more of these by using commands.`)
+                            message.channel.send(firstCoinEmbed).then(m => m.delete({timeout: 15000}))
                           } else {
                             money.money = money.money + moneyGained;
                             money.save().catch(err => console.log(err));
@@ -389,6 +410,7 @@ module.exports = {
                           if (!money) {
                             const newMoney = new Money({
                               userID: message.author.id,
+                              username: message.author.tag,
                               serverID: message.guild.id,
                               money: moneyGained
                             });
@@ -409,7 +431,10 @@ module.exports = {
                       );
                       break;
                     } else {
-                      await attack(message.author, target, target);
+                       let chance = Math.floor(Math.random() * 10)
+                      if(chance === 2) {
+                        message.channel.send('You missed!');
+                      } else await attack(message.author, target, message.author);
                     }
 
                     if (stats.stats.get("vitality") <= 0) {
@@ -446,6 +471,7 @@ module.exports = {
                           if (!money) {
                             const newMoney = new Money({
                               userID: target.id,
+                              username: target.tag,
                               serverID: message.guild.id,
                               money: moneyGained
                             });
@@ -499,6 +525,7 @@ module.exports = {
                           if (!money) {
                             const newMoney = new Money({
                               userID: message.author.id,
+                              username: message.author.tag,
                               serverID: message.guild.id,
                               money: moneyGained
                             });
@@ -519,7 +546,10 @@ module.exports = {
                       );
                       break;
                     } else {
-                      await attack(message.author, target, message.author);
+                       let chance = Math.floor(Math.random() * 10)
+                      if(chance === 2) {
+                        message.channel.send('You missed!');
+                      } else await attack(message.author, target, target);
                     }
                   }
                 }
@@ -567,6 +597,7 @@ module.exports = {
                             if (!money) {
                               const newMoney = new Money({
                                 userID: message.author.id,
+                                username: message.author.tag,
                                 serverID: message.guild.id,
                                 money: moneyGained
                               });
@@ -621,6 +652,7 @@ module.exports = {
                             if (!money) {
                               const newMoney = new Money({
                                 userID: target.id,
+                                username: target.tag,
                                 serverID: message.guild.id,
                                 money: moneyGained
                               });
@@ -642,7 +674,10 @@ module.exports = {
                         );
                         break;
                       } else {
-                        await attack(message.author, target, message.author);
+                         let chance = Math.floor(Math.random() * 10)
+                      if(chance === 2) {
+                        message.channel.send('You missed!');
+                      } else await attack(message.author, target, message.author);
                       }
 
                       if (targetstats.stats.get("vitality") <= 0) {
@@ -678,6 +713,7 @@ module.exports = {
                             if (!money) {
                               const newMoney = new Money({
                                 userID: message.author.id,
+                                username: message.author.tag,
                                 serverID: message.guild.id,
                                 money: moneyGained
                               });
@@ -732,6 +768,7 @@ module.exports = {
                             if (!money) {
                               const newMoney = new Money({
                                 userID: target.id,
+                                username: target.tag,
                                 serverID: message.guild.id,
                                 money: moneyGained
                               });
@@ -753,7 +790,10 @@ module.exports = {
                         );
                         break;
                       } else {
-                        await attack(message.author, target, target);
+                         let chance = Math.floor(Math.random() * 10)
+                      if(chance === 2) {
+                        message.channel.send('You missed!');
+                      } else await attack(message.author, target, target);
                       }
                     }
                   }
@@ -797,6 +837,7 @@ module.exports = {
                             if (!money) {
                               const newMoney = new Money({
                                 userID: message.author.id,
+                                username: message.author.tag,
                                 serverID: message.guild.id,
                                 money: moneyGained
                               });
@@ -851,6 +892,7 @@ module.exports = {
                             if (!money) {
                               const newMoney = new Money({
                                 userID: target.id,
+                                username: target.tag,
                                 serverID: message.guild.id,
                                 money: moneyGained
                               });
@@ -872,7 +914,10 @@ module.exports = {
                         );
                         break;
                       } else {
-                        await attack(message.author, target, target);
+                         let chance = Math.floor(Math.random() * 10)
+                      if(chance === 2) {
+                        message.channel.send('You missed!');
+                      } else await attack(message.author, target, target);
                       }
 
                       if (targetstats.stats.get("vitality") <= 0) {
@@ -908,6 +953,7 @@ module.exports = {
                             if (!money) {
                               const newMoney = new Money({
                                 userID: message.author.id,
+                                username: message.author.tag,
                                 serverID: message.guild.id,
                                 money: moneyGained
                               });
@@ -962,6 +1008,7 @@ module.exports = {
                             if (!money) {
                               const newMoney = new Money({
                                 userID: target.id,
+                                username: target.tag,
                                 serverID: message.guild.id,
                                 money: moneyGained
                               });
@@ -982,7 +1029,10 @@ module.exports = {
                           stats.stats.get("maxvitality")
                         );
                       } else {
-                        await attack(message.author, target, message.author);
+                         let chance = Math.floor(Math.random() * 10)
+                      if(chance === 2) {
+                        message.channel.send('You missed!');
+                      } else await attack(message.author, target, message.author);
                       }
                     }
                   }
@@ -996,9 +1046,9 @@ module.exports = {
                 let attackOptions = ["💥", "🛑"];
                 let attackEmbed = new MessageEmbed()
                   .setColor(colours.battle)
-                  .setTitle(`**${attacker.username}'s ** turn`)
+                  .setTitle(`**${attacker.username}'s** turn`)
                   .setDescription(
-                    `**What will you do?**\n\n👊💥Attack\n\n🛑Cancel`
+                    `**What will you do?**\n\n**👊💥: Attack**\n\n**🛑: Cancel**`
                   );
                 const m = await message.channel.send(attackEmbed);
                 const reacted = await promptMessage(
@@ -1016,7 +1066,7 @@ module.exports = {
                     let damage =
                       stats.stats.get("strength") +
                       Math.floor(Math.random() * 4) +
-                      4;
+                      2;
                     targetstats.stats.set(
                       "vitality",
                       targetstats.stats.get("vitality") - damage
@@ -1043,7 +1093,7 @@ module.exports = {
                     let damage =
                       targetstats.stats.get("strength") +
                       Math.floor(Math.random() * 4) +
-                      4;
+                      2;
                     stats.stats.set(
                       "vitality",
                       stats.stats.get("vitality") - damage
