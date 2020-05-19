@@ -1,6 +1,6 @@
 # Bot Of Dreams!
 
-Bot of Dreams is a Discord bot made with Disord.js
+Bot of Dreams is a Discord bot made with Discord.js
 
 ## Usage
 To learn about a command list, @ the bot by doing:
