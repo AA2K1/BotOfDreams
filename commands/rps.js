@@ -58,6 +58,7 @@ module.exports = {
                     if (!money) {
                         const newMoney = new Money({
                             userID: message.author.id,
+                            username: message.author.tag,
                             serverID: message.guild.id,
                             money: moneyGained
                         })

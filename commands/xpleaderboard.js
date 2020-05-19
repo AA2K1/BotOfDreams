@@ -12,7 +12,7 @@ mongoose.connect(MONGODB_URI || "mongodb://localhost:27017/CoinDB", {
 module.exports = {
   name: "xpleaderboard",
   aliases: ["xplb", "xprich"],
-  cooldown: 10,
+  cooldown: 50,
   category: "stats",
   description: "Shows richest in a server in terms of coins.",
   run: async (message, args, client) => {

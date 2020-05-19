@@ -48,10 +48,9 @@ module.exports = {
           });
 
           newPlayer.save().catch(err => console.log(err));
-          message.reply("your stats are saved.");
           let lvlUp = new MessageEmbed()
             .setColor(colours.stats)
-            .setTitle(`${message.author.username} has gained his first XP!`)
+            .setTitle(`${user.username} has gained his first XP!`)
             .setDescription(
               `These first stats will be the stepping stone for your success as a fighter.`
             )
@@ -64,7 +63,7 @@ module.exports = {
             .setTitle(`**Stats for: ${user.username}**`)
             .setThumbnail(user.displayAvatarURL())
             .setDescription(
-              `**Level:** ${stats.level}\n **XP: ** ${stats.xp}\n`
+              `**Level:** ${stats.level}\n **XP: ** ${stats.xp}\n **Class: ** ${stats.class.toUpperCase()}\n`
             )
             .addField(
               "**Stats: **",

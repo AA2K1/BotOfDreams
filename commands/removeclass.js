@@ -53,7 +53,6 @@ module.exports = {
           });
 
           newPlayer.save().catch(err => console.log(err));
-          message.reply("your stats are saved.");
           let lvlUp = new MessageEmbed()
             .setColor(colours.stats)
             .setTitle(`${message.author.username} has gained his first XP!`)
