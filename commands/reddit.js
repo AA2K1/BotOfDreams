@@ -23,15 +23,15 @@ module.exports = {
       const randomnumber = Math.floor(Math.random() * allowed.length);
       const embed = new MessageEmbed()
         .setColor(colours.fun)
-        .setAuthor(`From /r/${args[0]}`)
-        .setTitle(`Title of fresh meme: ${allowed[randomnumber].data.title}`)
+        .setAuthor(`\`From /r/${args[0]}\``)
+        .setTitle(`Title of fresh meme: \`${allowed[randomnumber].data.title}\``)
         .setDescription(
-          `Posted by fellow memer: **${allowed[randomnumber].data.author}**`
+          `Posted by fellow memer: \`${allowed[randomnumber].data.author}\``
         )
         .setImage(allowed[randomnumber].data.url)
         .addField(
           "Other info:",
-          `**Updoots: ** **${allowed[randomnumber].data.ups}**`,
+          `**Updoots: ** \`${allowed[randomnumber].data.ups}\``,
           true
         )
         .setTimestamp()
@@ -39,7 +39,7 @@ module.exports = {
       message.channel.send(embed);
     } else {
       message.reply(
-        `ERROR: Specify a subreddit. If you want random memes, try ${prefix}meme.`
+        `\`ERROR: Specify a subreddit. If you want random memes, try ${prefix}meme.\``
       );
     }
   }

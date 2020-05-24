@@ -1,4 +1,4 @@
-let coins = require("../coins.json");
+
 const { MessageEmbed, Collection } = require("discord.js");
 let colours = require("../colours.json")
 const mongoose = require('mongoose');
@@ -30,10 +30,10 @@ module.exports = {
             .setTimestamp()
             .setFooter(client.user.username, client.user.displayAvatarURL())
             if (!money) {
-                coinEmbed.setDescription("**0 DreamCoins.** Get some money, will ya?")
+                coinEmbed.setDescription("`0 DreamCoins. Get some money, will ya?`")
                 return message.channel.send(coinEmbed)
             } else {
-                coinEmbed.setDescription(`**${money.money} DreamCoin(s)**`)
+                coinEmbed.setDescription(`\`${money.money} DreamCoin(s)\``)
                 return message.channel.send(coinEmbed)
             }
         })

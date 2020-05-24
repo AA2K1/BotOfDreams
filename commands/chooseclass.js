@@ -2,7 +2,6 @@ let { MessageEmbed } = require("discord.js");
 const fs = require("fs");
 let classes = require("../classes.json");
 let colours = require("../colours.json");
-let xp = require("../xp.json");
 const { promptMessage } = require("../functions.js");
 const emojiCharacters = require("../emojichraracters.js");
 const Player = require("../models/player");
@@ -60,9 +59,9 @@ module.exports = {
           newPlayer.save().catch(err => console.log(err));
           let lvlUp = new MessageEmbed()
             .setColor(colours.stats)
-            .setTitle(`${message.author.username} has gained his first XP!`)
+            .setTitle(`\`${message.author.username} has gained his first XP!\``)
             .setDescription(
-              `These first stats will be the stepping stone for your success as a fighter.`
+              `**These first stats will be the stepping stone for your success as a fighter.**`
             )
             .setTimestamp()
             .setFooter(client.user.username, client.user.displayAvatarURL());
@@ -95,7 +94,7 @@ module.exports = {
           let chooseClassEmbed = new MessageEmbed()
             .setColor(colours.stats)
             .setTitle(
-              "**Pick a class: React to this message to pick your class.**"
+              "`Pick a class: React to this message to pick your class.`"
             )
             .setDescription(
               `🧙‍♂️: Mage\n\n⚔️: Warrior\n\n💗: Cleric\n\n🕵️: Thief\n\n`
@@ -114,7 +113,7 @@ module.exports = {
           let classEmbed = new MessageEmbed()
             .setColor(colours.stats)
             .setTitle(`**${message.author.username}'s class is: **`)
-            .setDescription(`${classchoice}!`)
+            .setDescription(`\`${classchoice}!\``)
             .addField(
               `**Stats: **`,
               `Strength: ${stats.stats.get(
