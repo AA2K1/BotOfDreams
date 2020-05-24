@@ -1,6 +1,5 @@
 # Bot Of Dreams!
 
-<<<<<<< glitch
 Bot of Dreams is a Discord bot made with Discord.js. It's main purpose is to simulate a text adventure in Discord, but it can do other things such as memes and fun commands like blackjack and rockpaperscissors.
 
 ## Usage
