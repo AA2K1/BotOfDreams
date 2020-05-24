@@ -1,4 +1,4 @@
-let coins = require("../coins.json");
+
 const { MessageEmbed, Collection } = require("discord.js");
 let colours = require("../colours.json")
 const mongoose = require('mongoose');

@@ -8,7 +8,7 @@ module.exports = {
     description: "Returns link to my website",
     run: async (message, args, client) => {
         const embed1 = new MessageEmbed()
-            .setTitle('Website: ')
+            .setTitle('`Website:`')
             .setDescription('https://aa2k.netlify.app/')
             .setColor(colours.info)
             .setTimestamp()

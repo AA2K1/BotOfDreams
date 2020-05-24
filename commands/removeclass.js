@@ -2,7 +2,7 @@ let { MessageEmbed } = require("discord.js");
 const fs = require("fs");
 let classes = require("../classes.json");
 let colours = require("../colours.json");
-let xp = require("../xp.json");
+
 const { promptMessage } = require("../functions.js");
 const emojiCharacters = require("../emojichraracters.js");
 const Player = require("../models/player");
@@ -55,18 +55,18 @@ module.exports = {
           newPlayer.save().catch(err => console.log(err));
           let lvlUp = new MessageEmbed()
             .setColor(colours.stats)
-            .setTitle(`${message.author.username} has gained his first XP!`)
+            .setTitle(`\`${message.author.username} has gained his first XP!\``)
             .setDescription(
-              `These first stats will be the stepping stone for your success as a fighter.`
+              `\`These first stats will be the stepping stone for your success as a fighter.\``
             )
             .setTimestamp()
             .setFooter(client.user.username, client.user.displayAvatarURL());
           message.channel.send(lvlUp).then(m => m.delete({ timeout: 25000 }));
         } else {
           if (stats.class === "peasant") {
-            message.reply(`you can't remove the peasant class. Use ${prefix}class to get a class!`)
+            message.reply(`\`you can't remove the peasant class. Use ${prefix}class to get a class!\``)
           } else {
-            message.reply('Are you willing to start anew with a different class? Your stats will be wiped. Yes: type y. No: type n')
+            message.reply('`Are you willing to start anew with a different class? Your stats will be wiped. Yes: type y. No: type n`')
             const filter = m =>
               m.content.includes("y") || m.content.includes("n");
             const collector = message.channel.createMessageCollector(filter, {
@@ -77,10 +77,10 @@ module.exports = {
               if (m.content == 'y') {
                 removeClass(stats.class);
                 stats.save().catch(err => console.log(err));
-                message.channel.send('Successfully removed your class.')
+                message.channel.send('`Successfully removed your class.`')
               } else if (m.content == 'n') {
                 message.channel.send(
-                  "It seems you will wait until next time. Until then."
+                  "`It seems you will wait until next time. Until then.`"
                 );
               }
             });

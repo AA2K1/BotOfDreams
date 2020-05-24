@@ -22,10 +22,10 @@ module.exports = {
             .setTimestamp()
             .setColor(colours.info)
             .setFooter(client.user.username, client.user.displayAvatarURL())
-            .addField(`Username`, userinfo.name, true)
-            .addField(`ID`, userinfo.id, true)
-            .addField(`Status`, userinfo.status, true)
-            .addField(`RegisterdAt`, userinfo.registered)
+            .addField(`\`Username\``, userinfo.name, true)
+            .addField(`\`ID\``, userinfo.id, true)
+            .addField(`\`Status\``, userinfo.status, true)
+            .addField(`\`RegisterdAt\``, userinfo.registered)
         message.channel.send(embed)
     }
 }

@@ -1,4 +1,4 @@
-let xp = require("../xp.json");
+
 const { MessageEmbed } = require("discord.js");
 const Player = require("../models/player");
 const mongoose = require("mongoose");
@@ -60,7 +60,7 @@ module.exports = {
         } else {
           let lvlUpEmbed = new MessageEmbed()
             .setColor(colours.stats)
-            .setTitle(`**Stats for: ${user.username}**`)
+            .setTitle(`\`Stats for: ${user.username}\``)
             .setThumbnail(user.displayAvatarURL())
             .setDescription(
               `**Level:** ${stats.level}\n **XP: ** ${stats.xp}\n **Class: ** ${stats.class.toUpperCase()}\n`

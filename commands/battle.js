@@ -56,7 +56,7 @@ module.exports = {
                 .setColor(colours.stats)
                 .setTitle(`${target.username}'s Challenge`)
                 .setDescription(
-                  `You have been challenged by **${message.author.username}**. Is this what you desire? React to this message accordingly:\n\n**Accept:** 👍\n\n**Cancel:** 🚫`
+                  `\`You have been challenged by **${message.author.username}**. Is this what you desire? React to this message accordingly:\`\n\n**Accept:** 👍\n\n**Cancel:** 🚫`
                 )
                 .setThumbnail(target.displayAvatarURL())
                 .setTimestamp()
@@ -67,7 +67,7 @@ module.exports = {
               const m = await message.channel.send(acceptEmbed);
               const reacted = await promptMessage(m, target, 30, acceptOptions);
               if (reacted === "✅") {
-                message.channel.send("Let us start the game.");
+                message.channel.send("`Let us start the game.`");
                 //put in logic to run function
                 let playerspeed = stats.stats.get("agility");
                 let targetspeed = targetstats.stats.get("agility");
@@ -175,7 +175,7 @@ module.exports = {
                             let firstCoinEmbed = new MessageEmbed()
                               .setColor(colours.economy)
                               .setTitle(`${target.username}'s first coins!'`)
-                              .setDescription(`**A whopping ${moneyGained} coins! You can get more of these by using commands.`)
+                              .setDescription(`\`A whopping ${moneyGained} coins! You can get more of these by using commands.\``)
                             message.channel.send(firstCoinEmbed).then(m => m.delete({timeout: 15000}))
                           } else {
                             money.money = money.money + moneyGained;
