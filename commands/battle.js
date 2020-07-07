@@ -121,9 +121,11 @@ module.exports = {
                               .setTitle(`${message.author.username}'s first coins!'`)
                               .setDescription(`**A whopping ${moneyGained} coins! You can get more of these by using commands.`)
                             message.channel.send(firstCoinEmbed).then(m => m.delete({timeout: 15000}))
+                            coinAchievement(money);
                           } else {
                             money.money = money.money + moneyGained;
                             money.save().catch(err => console.log(err));
+                            coinAchievement(money);
                           }
                         }
                       );
@@ -177,9 +179,11 @@ module.exports = {
                               .setTitle(`${target.username}'s first coins!'`)
                               .setDescription(`\`A whopping ${moneyGained} coins! You can get more of these by using commands.\``)
                             message.channel.send(firstCoinEmbed).then(m => m.delete({timeout: 15000}))
+                            coinAchievement(money);
                           } else {
                             money.money = money.money + moneyGained;
                             money.save().catch(err => console.log(err));
+                            coinAchievement(money);
                           }
                         }
                       );
@@ -240,9 +244,11 @@ module.exports = {
                               .setTitle(`${message.author.username}'s first coins!'`)
                               .setDescription(`**A whopping ${moneyGained} coins! You can get more of these by using commands.`)
                             message.channel.send(firstCoinEmbed).then(m => m.delete({timeout: 15000}))
+                            coinAchievement(money);
                           } else {
                             money.money = money.money + moneyGained;
                             money.save().catch(err => console.log(err));
+                            coinAchievement(money);
                           }
                         }
                       );
@@ -287,6 +293,7 @@ module.exports = {
                               userID: target.id,
                               username: target.tag,
                               serverID: message.guild.id,
+                              servername: message.guild.name,
                               money: moneyGained
                             });
 
@@ -296,9 +303,11 @@ module.exports = {
                               .setTitle(`${target.username}'s first coins!'`)
                               .setDescription(`**A whopping ${moneyGained} coins! You can get more of these by using commands.`)
                             message.channel.send(firstCoinEmbed).then(m => m.delete({timeout: 15000}))
+                            coinAchievement(money);
                           } else {
                             money.money = money.money + moneyGained;
                             money.save().catch(err => console.log(err));
+                            coinAchievement(money);
                           }
                         }
                       );
@@ -365,9 +374,11 @@ module.exports = {
                               .setTitle(`${target.username}'s first coins!'`)
                               .setDescription(`**A whopping ${moneyGained} coins! You can get more of these by using commands.`)
                             message.channel.send(firstCoinEmbed).then(m => m.delete({timeout: 15000}))
+                            coinAchievement(money);
                           } else {
                             money.money = money.money + moneyGained;
                             money.save().catch(err => console.log(err));
+                            coinAchievement(money);
                           }
                         }
                       );
@@ -412,6 +423,7 @@ module.exports = {
                               userID: message.author.id,
                               username: message.author.tag,
                               serverID: message.guild.id,
+                              servername: message.guild.name,
                               money: moneyGained
                             });
 
@@ -419,9 +431,11 @@ module.exports = {
                             message.reply(
                               "your money has been saved in a database."
                             );
+                            coinAchievement(money);
                           } else {
                             money.money = money.money + moneyGained;
                             money.save().catch(err => console.log(err));
+                            coinAchievement(money);
                           }
                         }
                       );
@@ -473,6 +487,7 @@ module.exports = {
                               userID: target.id,
                               username: target.tag,
                               serverID: message.guild.id,
+                              servername: message.guild.name,
                               money: moneyGained
                             });
 
@@ -480,9 +495,11 @@ module.exports = {
                             message.reply(
                               "your money has been saved in a database."
                             );
+                            coinAchievement(money);
                           } else {
                             money.money = money.money + moneyGained;
                             money.save().catch(err => console.log(err));
+                            coinAchievement(money);
                           }
                         }
                       );
@@ -527,6 +544,7 @@ module.exports = {
                               userID: message.author.id,
                               username: message.author.tag,
                               serverID: message.guild.id,
+                              servername: message.guild.name,
                               money: moneyGained
                             });
 
@@ -534,9 +552,11 @@ module.exports = {
                             message.reply(
                               "your money has been saved in a database."
                             );
+                            coinAchievement(money);
                           } else {
                             money.money = money.money + moneyGained;
                             money.save().catch(err => console.log(err));
+                            coinAchievement(money);
                           }
                         }
                       );
@@ -599,6 +619,7 @@ module.exports = {
                                 userID: message.author.id,
                                 username: message.author.tag,
                                 serverID: message.guild.id,
+                                servername: message.guild.name,
                                 money: moneyGained
                               });
 
@@ -606,9 +627,11 @@ module.exports = {
                               message.reply(
                                 "your money has been saved in a database."
                               );
+                              coinAchievement(money);
                             } else {
                               money.money = money.money + moneyGained;
                               money.save().catch(err => console.log(err));
+                              coinAchievement(money);
                             }
                           }
                         );
@@ -654,6 +677,7 @@ module.exports = {
                                 userID: target.id,
                                 username: target.tag,
                                 serverID: message.guild.id,
+                                servername: message.guild.name,
                                 money: moneyGained
                               });
 
@@ -715,6 +739,7 @@ module.exports = {
                                 userID: message.author.id,
                                 username: message.author.tag,
                                 serverID: message.guild.id,
+                                servername: message.guild.name,
                                 money: moneyGained
                               });
 
@@ -770,6 +795,7 @@ module.exports = {
                                 userID: target.id,
                                 username: target.tag,
                                 serverID: message.guild.id,
+                                servername: message.guild.name,
                                 money: moneyGained
                               });
 
@@ -839,6 +865,7 @@ module.exports = {
                                 userID: message.author.id,
                                 username: message.author.tag,
                                 serverID: message.guild.id,
+                                servername: message.guild.name,
                                 money: moneyGained
                               });
 
@@ -894,6 +921,7 @@ module.exports = {
                                 userID: target.id,
                                 username: target.tag,
                                 serverID: message.guild.id,
+                                servername: message.guild.name,
                                 money: moneyGained
                               });
 
@@ -955,6 +983,7 @@ module.exports = {
                                 userID: message.author.id,
                                 username: message.author.tag,
                                 serverID: message.guild.id,
+                                servername: message.guild.name,
                                 money: moneyGained
                               });
 
@@ -1010,6 +1039,7 @@ module.exports = {
                                 userID: target.id,
                                 username: target.tag,
                                 serverID: message.guild.id,
+                                servername: message.guild.name,
                                 money: moneyGained
                               });
 

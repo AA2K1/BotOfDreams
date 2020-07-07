@@ -18,6 +18,5 @@ module.exports = {
             embed.setTitle('Blop!')
           }
         message.channel.send(embed)
-        //message.channel.send(`Blop\nAPI Latency: ${Math.round(client.ws.ping)}`);
     }
 }

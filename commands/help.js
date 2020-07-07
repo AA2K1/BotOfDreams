@@ -16,20 +16,21 @@ module.exports = {
               } else {
                 let categoryembed = new MessageEmbed()
                   .setColor(colours.info)
-                  .setTitle(`${client.user.username} Help`)
+                  .setTitle(`${client.user.username} help`)
                   .setThumbnail(client.user.displayAvatarURL())
                   .setTimestamp()
                   .setFooter(client.user.username, client.user.displayAvatarURL())
                   .setDescription(`\`${args[0]}:\``)
                 client.commands
                   .filter(c => c.category == args[0])
-                  .map(m => categoryembed.addField(`\`${m.name}\`\n`, `\`Description: ${m.description}\`\nAliases: ${m.aliases}`))
+                  .map(m => categoryembed.addField(`\`${m.name}\`\n`, `\`Description: ${m.description}\`\n\n\`Aliases: ${m.aliases}\``, true))
+                  .join(" ")
                 message.channel.send(categoryembed).then(m => m.delete({timeout: 15000}))
               }
             } else {
               let embed = new MessageEmbed()
                 .setColor(colours.info)
-                .setTitle(`${client.user.username} Help`)
+                .setTitle(`${client.user.username} help`)
                 .setThumbnail(client.user.displayAvatarURL())
                 .setTimestamp()
                 .setFooter(client.user.username, client.user.displayAvatarURL())
@@ -40,13 +41,13 @@ module.exports = {
         let embed1 = new MessageEmbed()
             .setColor(colours.info)
             .setThumbnail(client.user.displayAvatarURL())
-            .setTitle(`${client.user.username} Help\n**Command List:**`)
+            .setTitle(`${client.user.username} help\n**Command List:**`)
             .setDescription(`\`You can either find a category's commands with ${prefix}help category, or find a command with ${prefix}help command.\``)
             .setTimestamp()
             .setFooter(client.user.username, client.user.displayAvatarURL())
-            .addField(`\`Info:\``, `\`Miscellaneous stuff about your Discord user.\``)
-            .addField(`\`Fun:\``, `\`Fun stuff. Because bots are fun.\``)
-            .addField(`\`Stats:\``, `\`Info about your character and balance, and ways to upgrade them.\``)
+            .addField(`\`Info 📰:\``, `\`Miscellaneous stuff about your Discord user.\``)
+            .addField(`\`Fun 🎲:\``, `\`Fun stuff. Because bots are fun.\``)
+            .addField(`\`Stats 📈:\``, `\`Info about your character and balance, and ways to upgrade them.\``)
         message.channel.send(embed1)
         }
     }

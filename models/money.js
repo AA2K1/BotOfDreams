@@ -4,6 +4,7 @@ const moneySchema = new mongoose.Schema ({
     userID: String,
     username: String,
     serverID: String,
+    servername: String,
     money: Number
 })
 

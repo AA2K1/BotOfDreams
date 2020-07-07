@@ -34,7 +34,7 @@ module.exports = {
       const randomnumber = Math.floor(Math.random() * allowed.length);
       const embed = new MessageEmbed()
         .setColor(colours.fun)
-        .setAuthor(`\`From /r/${randomsubreddit}\``)
+        .setAuthor(`From /r/${randomsubreddit}`)
         .setTitle(`\`Title of fresh meme: ${allowed[randomnumber].data.title}\``)
         .setDescription(
           `Posted by fellow memer: \`${allowed[randomnumber].data.author}\``
