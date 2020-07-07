@@ -60,6 +60,7 @@ module.exports = {
                 userID: message.author.id,
                 username: message.author.tag,
                 serverID: message.guild.id,
+                servername: message.guild.name,
                 money: moneyGained
               });
 

@@ -13,7 +13,7 @@ mongoose.connect(MONGODB_URI || "mongodb://localhost:27017/CoinDB", {
 module.exports = {
   name: "blackjack",
   aliases: ["bj"],
-  cooldown: 1,
+  cooldown: 600,
   category: "fun",
   description: "Plays a nice game of blackjack.",
   run: async (message, args, client, cmd) => {

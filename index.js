@@ -19,6 +19,7 @@ const { config } = require("dotenv");
 const mongoose = require("mongoose");
 const Money = require("./models/money");
 const Player = require("./models/player");
+const Pog = require("./models/pog");
 const snekfetch = require("snekfetch");
 const MONGODB_URI =
   "mongodb+srv://" +
@@ -44,7 +45,9 @@ const prefix = "//";
 client.commands = new Collection();
 client.aliases = new Collection();
 client.categories = new Collection();
+client.emojis = new Collection();
 let cooldowns = new Collection();
+let achieveTriggers = new Collection();
 
 const commandFiles = fs
   .readdirSync("./commands/")
@@ -55,6 +58,16 @@ for (const file of commandFiles) {
   client.commands.set(command.aliases, client.aliases);
   client.categories.set(command.category, client.categories);
 }
+
+const achieveTriggerFiles = fs
+  .readdirSync("./achieveTriggers/")
+  .filter(file => file.endsWith(".js"));
+for (const file of achieveTriggerFiles) {
+  const command = require(`./achieveTriggers/${file}`);
+  achieveTriggers.set(command.name, command);
+}
+
+
 
 config({
   path: __dirname + "/.env"
@@ -75,115 +88,41 @@ client.on("ready", () => {
     const index = Math.floor(Math.random() * (activities_list.length - 1) + 1);
     client.user.setActivity(activities_list[index]);
   }, 10000);
-});
-
-client.on("ready", () => {
   console.log(`Let us start the game, ${client.user.username}.`);
 });
 
 client.on("message", async message => {
+  client.emojis.cache.set("pog", "715433730336096288");
+  client.emojis.cache.set("poggers", "715694111927304288");
+  const pog = client.emojis.cache.get("715433730336096288");
+  const poggers = client.emojis.cache.get("715694111927304288");
   const args = message.content
     .slice(prefix.length)
     .trim()
     .split(/ +/g);
   const cmd = args.shift().toLowerCase();
-  const command =
-    client.commands.get(cmd) ||
-    client.commands.find(c => c.aliases && c.aliases.includes(cmd));
-  if (message.mentions.members.username == client.user.username) {
-    client.commands.get("help").run(message, args, client, prefix);
-  }
 
   if (message.author.bot) return;
   if (!message.content.startsWith(prefix)) {
-    if (message.content.toLowerCase().includes("sans")) {
-      const embed = new MessageEmbed()
-        .setColor(colours.fun)
-        .setTitle("**Sans is listening to lofi beats rn**")
-        .setDescription("**He doesn't want to be disturbed**")
-        .setImage(
-          "https://media.tenor.com/images/886108cf9522baa385c9a31187befa32/tenor.gif"
-        )
-        .setTimestamp()
-        .setFooter(client.user.username, client.user.displayAvatarURL());
-      message.channel.send(embed);
-    } else if (
-      message.content === "wanna get on vc" ||
-      message.content === "wanna get on vc?"
-    ) {
-      return message.channel.send("lmao imagine getting on vc");
-    } else if (message.content.toLowerCase().includes("yankee")) {
-      message.channel.send(`\`With brim or with no brim?\``);
-      const filter = m =>
-        (!m.author.bot && m.content.toLowerCase() === "with") ||
-        m.content.toLowerCase() === "brim" ||
-        m.content.toLowerCase() === "with brim" ||
-        m.content.toLowerCase() === "with no" ||
-        m.content.toLowerCase() === "no brim";
-      const collector = new MessageCollector(message.channel, filter, {
-        max: 1
-      });
-
-      collector.on("collect", m => {
-        if (m.content.toLowerCase() === "with no" || m.content.toLowerCase() === 'no brim') {
-          const embed = new MessageEmbed()
-            .setColor(colours.fun)
-            .setTitle(`\`Yankee with no brim.\``)
-            .setImage(
-              "https://d2lllwtzebgpl1.cloudfront.net/98ff0c5836b1eb2bd73885ad868e8cc6_listingImg2_mtA1UteXd2.jpg"
-            )
-            .setTimestamp()
-            .setFooter(client.user.username, client.user.displayAvatarURL());
-          message.channel.send(embed).then(m => m.delete({timeout: 15000}))
-        } else if (m.content.toLowerCase() === "with" || m.content.toLowerCase() === 'brim' || m.content.toLowerCase() === 'with brim') {
-          const embed = new MessageEmbed()
-            .setColor(colours.fun)
-            .setTitle(`\`Yankee with brim.\``)
-            .setImage(
-              "https://www.ecapcity.com/pub/media/catalog/product/cache/c687aa7517cf01e65c009f6943c2b1e9/n/e/new-york-yankees-new-era-59fifty-fitted-hats-_navy-red-under-brim_-1.jpg"
-            )
-            .setTimestamp()
-            .setFooter(client.user.username, client.user.displayAvatarURL());
-          message.channel.send(embed).then(m => m.delete({timeout: 15000}))
-        } else {
-          message.channel.send(`\`Yankee hater.\``);
-        }
-      });
-    } else if(message.content.toLowerCase().includes('pog')) {
-      let pogimages = ['https://i.redd.it/bvmxrvfuoka41.jpg', 'https://cdn131.picsart.com/318402728358201.png?type=webp&to=min&r=240', 'https://i.redd.it/h3twynz0uxf41.png', 'https://i.redd.it/3w61wmud4tj41.png', 'https://discordemoji.com/assets/emoji/PogChamp.png', 'https://cdn.glitch.com/687a1c01-a180-42cb-b870-e7099bb8c0ab%2Ff20bb68e-01fc-42b9-9724-5002a98656ef.image.png?1590289064407', 'https://cdn.glitch.com/687a1c01-a180-42cb-b870-e7099bb8c0ab%2F8638680d-cbd7-4536-ba64-c27fab1d99f5.image.png?v=1590289293439']
-      let randompog = pogimages[Math.floor(Math.random() * pogimages.length)]
-      console.log(randompog);
-      const embed = new MessageEmbed()
-        .setColor(colours.fun)
-        .setImage(randompog)
-        .setTimestamp()
-        .setFooter(client.user.username, client.user.displayAvatarURL())
-      switch (randompog) {
-        case 'https://i.redd.it/bvmxrvfuoka41.jpg':
-          embed.setTitle('`Pog fish with teeth`')
-        break;
-        case 'https://cdn131.picsart.com/318402728358201.png?type=webp&to=min&r=240':
-          embed.setTitle('`Poggers fish`')
-        break;
-        case 'https://i.redd.it/h3twynz0uxf41.png':
-          embed.setTitle('`Weird pog fish`')
-        break;
-        case 'https://i.redd.it/3w61wmud4tj41.png':
-          embed.setTitle('`No pog this time.`')
-        break;
-        case  'https://cdn.glitch.com/687a1c01-a180-42cb-b870-e7099bb8c0ab%2Ff20bb68e-01fc-42b9-9724-5002a98656ef.image.png?1590289064407':
-          embed.setTitle('`No pog this time.`')
-        break;
-        case 'https://cdn.glitch.com/687a1c01-a180-42cb-b870-e7099bb8c0ab%2F8638680d-cbd7-4536-ba64-c27fab1d99f5.image.png?v=1590289293439':
-          embed.setTitle('`Pogu.`')
-        break;
-        case 'https://discordemoji.com/assets/emoji/PogChamp.png':
-          embed.setTitle('`The og pog.`')
-        break;
+    if (message.mentions.members.username == client.user.username) {
+      client.commands.get("help").run(message, args, client, prefix);
+    } else {
+      if (message.content.toLowerCase() === "sans") {
+        achieveTriggers.get("sans").run(message, args, client, cmd);
+      } else if (message.content.toLowerCase() === "pog") {
+        achieveTriggers.get("pog").run(message, args, client, cmd);
+      } else if (message.content.toLowerCase() === "poggers") {
+        achieveTriggers.get("poggers").run(message, args, client, cmd);
+      } else if (message.content.toLowerCase() === "weirdchamp") {
+        achieveTriggers.get("weirdchamp").run(message, args, client, cmd);
+      } else if (message.content.toLowerCase() == "ez" || message.content.toLowerCase() == "ez clap") {
+        achieveTriggers.get("ez").run(message, args, client, cmd);
       }
-      message.channel.send(embed).then(m => m.delete({timeout: 15000}))
     }
   } else {
+    const command =
+      client.commands.get(cmd) ||
+      client.commands.find(c => c.aliases && c.aliases.includes(cmd));
     if (!cooldowns.has(command.name) && message.content.startsWith(prefix)) {
       cooldowns.set(command.name, new Collection());
     }
@@ -211,14 +150,73 @@ client.on("message", async message => {
           );
         } else {
           embed.setDescription(
-            `**You gotta wait \`${Math.ceil(10 * timeLeft.toFixed(
-              1
-            ) / 60) / 10}\` minute(s) before using \`${cmd}\` again.**`
+            `**You gotta wait \`${Math.ceil((10 * timeLeft.toFixed(1)) / 60) /
+              10}\` minute(s) before using \`${cmd}\` again.**`
           );
         }
         return message.channel.send(embed);
       }
     }
+    // async function coinAchievement(coins) {
+    //   Pog.findOne(
+    //     {
+    //       userID: message.author.id
+    //     },
+    //     (err, pogs) => {
+    //       if (err) console.log(err);
+    //       if (!pogs) {
+    //         const newPog = new Pog({
+    //             userID: message.author.id,
+    //             username: message.author.tag,
+    //             achievements: [],
+    //             pogs: 0,
+    //             poggers: 1,
+    //             weirdchamps: 0,
+    //             sans: 0,
+    //             yankeewithbrim: 0,
+    //             yankeewithnobrim: 0
+    //           });
+    //           pogs.achievements.push(`💵: Broke(not for long)`);
+    //           pogs.save().catch(err => console.log(err));
+    //           message.author.send(
+    //             `\`Congratulations! You have found the achievement:\`💵: Broke(not for long). \`Make sure you get more of these coins by doing commands and battling.\`\``
+    //           );
+    //       } else {
+    //         if (coins.money >= 1 && coins.money <= 45) {
+    //           pogs.achievements.push(`💵: Broke(not for long)`);
+    //           pogs.save().catch(err => console.log(err));
+    //           message.author.send(
+    //             `\`Congratulations! You have found the achievement:\`💵: Broke(not for long). \`Make sure you get more of these coins by doing commands and battling.\`\``
+    //           );
+    //         } else if (coins.money == 100) {
+    //           pogs.achievements.push(`💸: Sufficient`);
+    //           pogs.save().catch(err => console.log(err));
+    //           message.author.send(
+    //             `\`Congratulations! You have found the achievement:\`💸: Sufficient. \`Make sure you get more of these coins by doing commands and battling.\`\``
+    //           );
+    //         } else if (coins.money == 1000) {
+    //           pogs.achievements.push(`💰: Getting Richer`);
+    //           pogs.save().catch(err => console.log(err));
+    //           message.author.send(
+    //             `\`Congratulations! You have found the achievement:\`💰: Getting Richer. \`Make sure you get more of these coins by doing commands and battling.\`\``
+    //           );
+    //         } else if (coins.money == 20000) {
+    //           pogs.achievements.push(`🤑: Big Bucks`);
+    //           pogs.save().catch(err => console.log(err));
+    //           message.author.send(
+    //             `\`Congratulations! You have found the achievement:\`🤑: Big Bucks. \`You're almost a millionaire, you just got 80,000 more coins to go.\`\``
+    //           );
+    //         } else if (coins.money == 1000000) {
+    //           pogs.achievements.push(`🏦: Millionaire`);
+    //           pogs.save().catch(err => console.log(err));
+    //           message.author.send(
+    //             `\`Wow! You actually found the achievement:\`🏦: Millionaire. \`I don't know how you've done it, but you somehow managed to get a million dollars. You're basically set for life!\`\``
+    //           );
+    //         }
+    //       }
+    //     }
+    //   );
+    // }
     if (message.content.startsWith(prefix)) {
       timestamps.set(message.author.id, now);
       setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
@@ -238,6 +236,7 @@ client.on("message", async message => {
                 userID: message.author.id,
                 username: message.author.tag,
                 serverID: message.guild.id,
+                servername: message.guild.name,
                 money: coinAmt
               });
 
@@ -254,6 +253,7 @@ client.on("message", async message => {
                   client.user.displayAvatarURL()
                 );
               message.channel.send(firstCoinEmbed);
+              //coinAchievement(money);
             } else {
               let coinEmbed = new MessageEmbed()
                 .setAuthor(`🤑${message.author.username}🤑`)
@@ -325,7 +325,60 @@ client.on("message", async message => {
           stats.xp = stats.xp + xpAdd;
           stats.save().catch(err => console.log(err));
           if (stats.xp >= toNxtLvl) {
-            stats.level += 1;
+            stats.level = stats.level + 1;
+            Pog.findOne(
+              {
+                userID: message.author.id
+              },
+              (err, pogs) => {
+                if (err) console.log(err);
+                if (!pogs) {
+                  const newPog = new Pog({
+                    userID: message.author.id,
+                    username: message.author.tag,
+                    achievements: [],
+                    pogs: 0,
+                    poggers: 0,
+                    weirdchamps: 0,
+                    sans: 0,
+                    yankeewithbrim: 0,
+                    yankeewithnobrim: 0
+                  });
+                }
+                if (stats.level == 3) {
+                  message.author.send(
+                    "`Nice job! You got the achievement: 🗑️: Amateur. You can get more of these types of achievements by leveling up.`"
+                  );
+                  pogs.achievements.push("🗑️: Amateur");
+                  pogs.save().catch(err => console.log(err));
+                } else if (stats.level == 10) {
+                  message.author.send(
+                    "`Nice job! You got the achievement: 🎗️: Experienced. You can get more of these types of achievements by leveling up.`"
+                  );
+                  pogs.achievements.push("🎗️: Experienced");
+                  pogs.save().catch(err => console.log(err));
+                } else if (stats.level == 25) {
+                  message.author.send(
+                    "`Nice job! You got the achievement: 🎖️: Expert. You're getting more and more experienced. Keep it up!`"
+                  );
+                  pogs.achievements.push("🎖️: Expert");
+                  pogs.save().catch(err => console.log(err));
+                } else if (stats.level == 50) {
+                  message.author.send(
+                    "`Wow! You got the achievement: 🏅: Master. You're becoming an expert, and a proficient fighter on the battlefield. Good job!`"
+                  );
+                  pogs.achievements.push("🏅: Master");
+                  pogs.save().catch(err => console.log(err));
+                } else if (stats.level == 100) {
+                  message.author.send(
+                    "`Oh my gosh! You got the achievement: 🏆: Legend. You've finally done it! I never thought I would see the day, but you have mastered the ins-and-outs of the battlefield.`"
+                  );
+                  pogs.achievements.push("🏆: Legend");
+                  pogs.save().catch(err => console.log(err));
+                }
+              }
+            );
+
             stats.xp = 0;
             let strengthInc = Math.floor(Math.random() * 10) + 5;
             let magicInc = Math.floor(Math.random() * 10) + 5;
@@ -347,7 +400,7 @@ client.on("message", async message => {
               .setTitle(`🎺🎺 ${message.author.username} leveled up! 🎺🎺`)
               .setThumbnail(message.author.avatarURL())
               .setDescription(
-                `**Level:** ${lvl}\n **XP Until Next Level: ** ${toNxtLvl}\n`
+                `**Level:** ${stats.level}\n **XP Until Next Level: ** ${toNxtLvl}\n`
               )
               .addField(
                 "**Stats: **",
@@ -380,7 +433,6 @@ client.on("message", async message => {
     message.member = await message.guild.fetchMember(message);
   // client.on('debug', info => console.log(info));
 });
-
 
 client.on("disconnect", () => console.error("Connection lost..."));
 client.on("reconnecting", () => console.log("Attempting to reconnect..."));
