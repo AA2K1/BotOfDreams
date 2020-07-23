@@ -9,12 +9,12 @@ module.exports = {
   description: "Shows an image from any image subreddit.",
   run: async (message, args, client, prefix) => {
     if (args.length == 1) {
-      const subReddit = args[0];
+      const subReddit = args[0].toLowerCase();
       const { body } = await snekfetch
-        .get(`https://www.reddit.com/r/${args[0]}.json?sort=top&t=week`)
+        .get(`https://www.reddit.com/r/${subReddit}.json?sort=top&t=week`)
         .query({ limit: 800 });
       const allowed = message.channel.nsfw
-        ? body.data.children
+        ? body.data.childrenar
         : body.data.children.filter(post => !post.data.over_18);
       if (!allowed.length)
         return message.channel.send(
@@ -23,7 +23,7 @@ module.exports = {
       const randomnumber = Math.floor(Math.random() * allowed.length);
       const embed = new MessageEmbed()
         .setColor(colours.fun)
-        .setAuthor(`From /r/${args[0]}`)
+        .setAuthor(`From /r/${subReddit}`)
         .setTitle(`Title of fresh meme: \`${allowed[randomnumber].data.title}\``)
         .setDescription(
           `Posted by fellow memer: \`${allowed[randomnumber].data.author}\``
