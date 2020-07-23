@@ -23,6 +23,7 @@ Then you can do the commands in the command list.
   - Strength - your attack stat
   - Agility - so you can move faster and go first in battle
   - Magic - your magic stat so you can do awesome magic moves.
+
 ## License
 
 [GNU General Public License v3.0](https://choosealicense.com/licenses/gpl-3.0/#)

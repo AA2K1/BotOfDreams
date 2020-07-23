@@ -7,12 +7,12 @@ module.exports = {
     category: "info",
     description: "Returns list of commands and prefix",
     run: async (message, args, client, prefix) => {
-        if (args[0] == "help") return message.reply(`Just send ${prefix}help instead, dumb-dumb. Or specify a command that's not help dumb-dumb.`);
+        if (args[0] == "help") return message.reply(`Either send ${prefix}help or specify a different command.`);
 
         if(args[0]) {
             if(!client.commands.get(args[0])) {
               if(!client.categories.get(args[0])) {
-                return message.reply("There is no command, or a category with that name dumb-dumb.")
+                return message.reply("ERROR: There isn't a command with that name.")
               } else {
                 let categoryembed = new MessageEmbed()
                   .setColor(colours.info)
@@ -41,7 +41,7 @@ module.exports = {
         let embed1 = new MessageEmbed()
             .setColor(colours.info)
             .setThumbnail(client.user.displayAvatarURL())
-            .setTitle(`${client.user.username} help\n**Command List:**`)
+            .setTitle(`**Command List:**`)
             .setDescription(`\`You can either find a category's commands with ${prefix}help category, or find a command with ${prefix}help command.\``)
             .setTimestamp()
             .setFooter(client.user.username, client.user.displayAvatarURL())

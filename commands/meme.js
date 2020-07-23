@@ -12,13 +12,11 @@ module.exports = {
       const subReddits = [
         "dankmemes",
         "me_irl",
-        "meme",
-        "dankmeme",
         "cursedcomments",
         "cursedimages",
         "blursedimages",
         "okbuddyretard",
-        "edgymemes",
+        "animemes",
       ];
       let randomsubreddit = subReddits[Math.floor(Math.random() * subReddits.length)];
       const { body } = await snekfetch
