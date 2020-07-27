@@ -19,7 +19,7 @@ module.exports = {
       let shopembed = new MessageEmbed()
         .setColor(colours.economy)
         .setTitle("A shop. You buy stuff from it.")
-        .setDescription(shop.toString())
+        .setDescription(shop.items.toString())
       message.channel.send(shopembed)
       
     }

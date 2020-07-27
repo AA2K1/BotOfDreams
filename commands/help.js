@@ -42,12 +42,12 @@ module.exports = {
             .setColor(colours.info)
             .setThumbnail(client.user.displayAvatarURL())
             .setTitle(`**Command List:**`)
-            .setDescription(`\`You can either find a category's commands with ${prefix}help category, or find a command with ${prefix}help command.\``)
+            .setDescription(`\`You can either find a category's commands with ${prefix}help [category], or find a command with ${prefix}help [command].\``)
             .setTimestamp()
             .setFooter(client.user.username, client.user.displayAvatarURL())
-            .addField(`\`Info 📰:\``, `\`Miscellaneous stuff about your Discord user.\``)
-            .addField(`\`Fun 🎲:\``, `\`Fun stuff. Because bots are fun.\``)
-            .addField(`\`Stats 📈:\``, `\`Info about your character and balance, and ways to upgrade them.\``)
+            .addField(`\`**Category: Info** 📰\``, `\`Miscellaneous stuff about your Discord user.\``)
+            .addField(`\`**Category: Fun** 🎲\``, `\`Fun stuff. Because bots are fun.\``)
+            .addField(`\`**Category: Stats** 📈\``, `\`Info about your character and balance, and ways to upgrade them.\``)
         message.channel.send(embed1)
         }
     }
