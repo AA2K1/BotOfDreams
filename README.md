@@ -27,3 +27,8 @@ Then you can do the commands in the command list.
 ## License
 
 [GNU General Public License v3.0](https://choosealicense.com/licenses/gpl-3.0/#)
+
+## Repl.it
+
+Check out the project on Repl.it
+[![Run on Repl.it](https://repl.it/badge/github/AA2K1/botofdreams)](https://repl.it/github/AA2K1/botofdreams)
