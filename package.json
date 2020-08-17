@@ -25,14 +25,9 @@
     "chart.js": "^2.9.3",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
-    "eslint-plugin-json": "^2.1.1",
     "express": "^4.17.1",
     "fs": "^0.0.2",
-    "moment": "^2.25.3",
     "mongoose": "^5.9.15",
-    "random-puppy": "^1.1.0",
-    "sequelize": "^6.0.0",
-    "snekfetch": "^4.0.4",
-    "sqlite3": "^4.2.0"
+    "snekfetch": "^4.0.4"
   }
 }

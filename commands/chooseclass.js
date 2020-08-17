@@ -1,6 +1,5 @@
 let { MessageEmbed } = require("discord.js");
 const fs = require("fs");
-let classes = require("../classes.json");
 let colours = require("../colours.json");
 const { promptMessage } = require("../functions.js");
 const emojiCharacters = require("../emojichraracters.js");

@@ -1,13 +1,11 @@
-var http = require("http");
+const express = require('express');
+const app = express();
+const port = 3000;
 
-http
-  .createServer(function(request, response) {
-    //The following code will print out the incoming request text
-    request.pipe(response);
-  })
-  .listen(1988, "127.0.0.1");
+app.get('/', (req, res) => res.send('Hello World!'));
 
-console.log("Listening on port 1988...");
+app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+
 const {
   Client,
   MessageEmbed,
@@ -34,7 +32,6 @@ mongoose.connect(MONGODB_URI || "mongodb://localhost:27017/CoinDB", {
   useUnifiedTopology: true
 });
 const fs = require("fs");
-let classes = require("./classes.json");
 let colours = require("./colours.json");
 let maxXp = Math.floor(Math.random() * 300) + 500;
 const client = new Client({
@@ -74,12 +71,7 @@ config({
 });
 
 const activities_list = [
-  "okbuddyretard because I'm funny",
-  "with some big brain books",
-  "with some big brain code",
-  "with memes",
-  "Danganronpa because I'm a weeb",
-  "Persona because I like pancakes",
+  `with big brain code.`,
   `${prefix}help`
 ];
 
