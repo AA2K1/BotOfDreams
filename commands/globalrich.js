@@ -28,13 +28,19 @@ module.exports = {
         if (res.length === 0) {
           embed.setColor(0xe84d4d);
           embed.setDescription(
-            "ERROR: No data found. Use other bot commands to get coins"
+            "`ERROR: No data found.`"
           );
         } else if (res.length < 5) {
           embed.setColor(colours.economy);
           for (let i = 0; i < res.length; i++) {
             let member =
-              Money.findOne({ userID: res[i].userID }) || "User left";
+              Money.findOne({userID: res[i].userID, username: res[i].username}) || "User left";
+            let memberList = [];
+            for(i=0; i < res.length; i++){
+              if(memberList.indexOf(res[i]) === -1 && member != "User left") {
+                memberList.push(res[i]);
+              }
+            }
             if (member == "User left") {
               embed.addField(
                 `${i + 1}. ${member}`,
@@ -44,22 +50,22 @@ module.exports = {
               if (i + 1 == 1) {
                 embed.addField(
                   `🥇: **${res[i].username}**`,
-                  `**Server: ${res[i].servername}**\n **Dreamcoins: ${res[i].money}**`
+                  `**Dreamcoins: ${res[i].money}**`
                 );
               } else if (i + 1 == 2) {
                 embed.addField(
                   `🥈: **${res[i].username}**`,
-                  `**Server: ${res[i].servername}**\n **Dreamcoins: ${res[i].money}**`
+                  `**Dreamcoins: ${res[i].money}**`
                 );
               } else if (i + 1 == 3) {
                 embed.addField(
                   `🥉: **${res[i].username}**`,
-                  `**Server: ${res[i].servername}**\n **Dreamcoins: ${res[i].money}**`
+                  `**Dreamcoins: ${res[i].money}**`
                 );
               } else {
                 embed.addField(
                   `🏅: **${res[i].username}**`,
-                  `**Server: ${res[i].servername}**\n **Dreamcoins: ${res[i].money}**`
+                  `**Dreamcoins: ${res[i].money}**`
                 );
               }
             }
@@ -68,7 +74,13 @@ module.exports = {
           embed.setColor(colours.economy);
           for (let i = 0; i < 5; i++) {
             let member =
-              Money.findOne({ userID: res[i].userID }) || "User left";
+              Money.findOne({userID: res[i].userID, username: res[i].username}) || "User left";
+            let memberList = [];
+            for(i=0; i < res.length; i++){
+              if(memberList.indexOf(res[i]) === -1 && member != "User left") {
+                memberList.push(res[i]);
+              }
+            }
             if (member == "User left") {
               embed.addField(
                 `${i + 1}. ${member}`,
@@ -78,22 +90,22 @@ module.exports = {
               if (i + 1 == 1) {
                 embed.addField(
                   `🥇: **${res[i].username}**`,
-                  `**Server: ${res[i].servername}**\n **Dreamcoins: ${res[i].money}**`
+                  `**Dreamcoins: ${res[i].money}**`
                 );
               } else if (i + 1 == 2) {
                 embed.addField(
                   `🥈: **${res[i].username}**`,
-                  `**Server: ${res[i].servername}**\n **Dreamcoins: ${res[i].money}**`
+                  `**Dreamcoins: ${res[i].money}**`
                 );
               } else if (i + 1 == 3) {
                 embed.addField(
                   `🥉: **${res[i].username}**`,
-                  `**Server: ${res[i].servername}**\n **Dreamcoins: ${res[i].money}**`
+                  `**Dreamcoins: ${res[i].money}**`
                 );
               } else {
                 embed.addField(
                   `🏅: **${res[i].username}**`,
-                  `**Server: ${res[i].servername}**\n **Dreamcoins: ${res[i].money}**`
+                  `**Dreamcoins: ${res[i].money}**`
                 );
               }
             }

@@ -34,20 +34,20 @@ module.exports = {
                 .setThumbnail(client.user.displayAvatarURL())
                 .setTimestamp()
                 .setFooter(client.user.username, client.user.displayAvatarURL())
-                .setDescription(`**Command: ** \`${client.commands.get(args[0]).name}\`\n\n **Category: ** \`${client.commands.get(args[0]).category}\`\n\n **Description: ** \`${client.commands.get(args[0]).description}\`\n\n **Aliases: ** \`${client.commands.get(args[0]).aliases}\``)
+                .setDescription(`Command:  \`${client.commands.get(args[0]).name}\`\n\n Category:  \`${client.commands.get(args[0]).category}\`\n\n Description: \`${client.commands.get(args[0]).description}\`\n\n Aliases:  \`${client.commands.get(args[0]).aliases}\``)
             message.channel.send(embed)
             }
         } else {
         let embed1 = new MessageEmbed()
             .setColor(colours.info)
             .setThumbnail(client.user.displayAvatarURL())
-            .setTitle(`**Command List:**`)
+            .setTitle(`Command List: `)
             .setDescription(`\`You can either find a category's commands with ${prefix}help [category], or find a command with ${prefix}help [command].\``)
             .setTimestamp()
             .setFooter(client.user.username, client.user.displayAvatarURL())
-            .addField(`\`**Category: Info** 📰\``, `\`Miscellaneous stuff about your Discord user.\``)
-            .addField(`\`**Category: Fun** 🎲\``, `\`Fun stuff. Because bots are fun.\``)
-            .addField(`\`**Category: Stats** 📈\``, `\`Info about your character and balance, and ways to upgrade them.\``)
+            .addField(`\`Category: Info 📰\``, `\`Miscellaneous stuff about your Discord user.\``)
+            .addField(`\`Category: Fun 🎲\``, `\`Fun stuff. Because bots are fun.\``)
+            .addField(`\`Category: Stats 📈\``, `\`Info about your character and balance, and ways to upgrade them.\``)
         message.channel.send(embed1)
         }
     }

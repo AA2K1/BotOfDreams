@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-app.get('/', (req, res) => res.send('Hello World!'));
+app.get('/', (req, res) => res.send('Hey! This is a Discord bot hosted on Repl.it so there is nothing here. Go to https://monkecoder.wordpress.com/ to claim my bot for your server.'));
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
 
@@ -37,7 +37,7 @@ let maxXp = Math.floor(Math.random() * 300) + 500;
 const client = new Client({
   disableEveryone: true
 });
-const prefix = "//";
+const prefix = process.env.PREFIX;
 
 client.commands = new Collection();
 client.aliases = new Collection();
@@ -300,16 +300,6 @@ client.on("message", async message => {
           });
 
           newPlayer.save().catch(err => console.log(err));
-          message.reply("your stats are saved.");
-          let lvlUp = new MessageEmbed()
-            .setColor(colours.stats)
-            .setTitle(`${message.author.username} has gained his first XP!`)
-            .setDescription(
-              `These first stats will be the stepping stone for your success as a fighter.`
-            )
-            .setTimestamp()
-            .setFooter(client.user.username, client.user.displayAvatarURL());
-          message.channel.send(lvlUp).then(m => m.delete({ timeout: 25000 }));
         } else {
           let lvl = stats.level;
           const toNxtLvl = maxXp * lvl;

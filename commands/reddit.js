@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const snekfetch = require("snekfetch");
+const fetch = require("node-fetch").default;
 const colours = require("../colours.json");
 module.exports = {
   name: "reddit",
@@ -10,15 +10,14 @@ module.exports = {
   run: async (message, args, client, prefix) => {
     if (args.length == 1) {
       const subReddit = args[0].toLowerCase();
-      const { body } = await snekfetch
-        .get(`https://www.reddit.com/r/${subReddit}.json?sort=top&t=week`)
-        .query({ limit: 800 });
+      const results = await fetch(`https://www.reddit.com/r/${subReddit}.json?sort=top&t=week`)
+      .then(res => res.json());
       const allowed = message.channel.nsfw
-        ? body.data.childrenar
-        : body.data.children.filter(post => !post.data.over_18);
+        ? results.data.children
+        : results.data.children.filter(post => !post.data.over_18);
       if (!allowed.length)
         return message.channel.send(
-          "It seems we are out of fresh memes! Try again later."
+          "It seems we are out of fresh memes or the subreddit you typed is not a subreddit! Try again later."
         );
       const randomnumber = Math.floor(Math.random() * allowed.length);
       const embed = new MessageEmbed()
