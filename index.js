@@ -33,6 +33,7 @@ mongoose.connect(MONGODB_URI || "mongodb://localhost:27017/CoinDB", {
 });
 const fs = require("fs");
 let colours = require("./colours.json");
+let WordData = require("./models/words.js");
 let maxXp = Math.floor(Math.random() * 300) + 500;
 const client = new Client({
   disableEveryone: true
@@ -84,10 +85,10 @@ client.on("ready", () => {
 });
 
 client.on("message", async message => {
-  client.emojis.cache.set("pog", "715433730336096288");
-  client.emojis.cache.set("poggers", "715694111927304288");
-  const pog = client.emojis.cache.get("715433730336096288");
-  const poggers = client.emojis.cache.get("715694111927304288");
+  client.emojis.cache.set("pog", "758383329241989162");
+  client.emojis.cache.set("poggers", "758383091458113607");
+  const pog = client.emojis.cache.get("758383329241989162");
+  const poggers = client.emojis.cache.get("758383091458113607");
   const args = message.content
     .slice(prefix.length)
     .trim()
@@ -410,6 +411,53 @@ client.on("message", async message => {
       return;
     }
   }
+
+
+  let words = message.content.toLowerCase().split(" ");
+  if (!message.author.bot) {
+    let counter = new Map();
+    // Split message's text into words
+    words.forEach((word) => {
+      if (word.length === 0) {
+        return;
+      }
+      if (counter.has(word)) {
+        counter.set(word, parseInt(counter.get(word)) + 1);
+      } else {
+        counter.set(word, 1);
+      }
+    });
+    // Save all words into a database
+    try {
+      WordData.findOne({userID: message.author.id}, function(err, wordStats){
+        if(!err) {
+          if(!wordStats) {
+            const newWords = new WordData({
+              userID: message.author.id,
+              username: message.author.username,
+              wordCount: counter
+            });
+            newWords.save((err) => console.log(err));
+          } else {
+            for (const [key, value] of counter.entries()) {
+              if(wordStats.wordCount.has(key)) {
+                wordStats.wordCount.set(key, wordStats.wordCount.get(key) + value);
+              } else if(!wordStats.wordCount.has(key) && !key.includes(".")) {
+                wordStats.wordCount.set(key, 1);
+              }
+            } 
+            wordStats.save(function(err) {
+            if(err) console.log(err);
+            });
+          }
+        }
+      });
+    } catch {
+      console.log("Failed to save words.");
+    }
+    
+  } 
+
   if (!message.guild) return;
   if (!message.member)
     message.member = await message.guild.fetchMember(message);

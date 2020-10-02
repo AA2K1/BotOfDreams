@@ -10,7 +10,7 @@ module.exports = {
   description:
     "Shows your achievements from saying pog, sans, and other things.",
   run: async (message, args, client, cmd) => {
-    const pog = client.emojis.cache.get("715433730336096288");
+    const pog = client.emojis.cache.get("758383329241989162");
     const poggers = client.emojis.cache.get('715694111927304288');
     Pog.findOne(
       {

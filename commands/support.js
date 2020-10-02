@@ -9,7 +9,7 @@ module.exports = {
     run: async (message, args, client, cmd) => {
       let embed = new MessageEmbed() 
         .setColor("0x3970b8")
-        .setTitle(`Godot100's Paypal.Me`)
+        .setTitle(`monkecoder's Paypal.Me`)
         .setDescription(`Hey! If you want to support me so I can make more stuff like this, consider donating to my Paypal!`)
         .setURL("https://paypal.me/thetf2gamer1?locale.x=en_US")
         .setFooter("It would be very cash money of you")

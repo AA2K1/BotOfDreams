@@ -9,7 +9,7 @@ module.exports = {
     run: async (message, args, client) => {
         const embed1 = new MessageEmbed()
             .setTitle('`Website:`')
-            .setDescription('https://godotwebportfolio.wordpress.com/')
+            .setDescription('https://monkecoder.wordpress.com/')
             .setColor(colours.info)
             .setTimestamp()
             .setFooter(client.user.username, client.user.displayAvatarURL())

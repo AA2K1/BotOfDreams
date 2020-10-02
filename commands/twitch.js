@@ -10,10 +10,10 @@ module.exports = {
         const embed = new MessageEmbed()
           .setColor(colours.info)
           .setAuthor('My Twitch Channel!')
-          .setTitle(`twitch.tv/godot100`)
+          .setTitle(`twitch.tv/monkecoder`)
           .setTimestamp()
           .setFooter(client.user.username, client.user.displayAvatarURL())
-          .setURL('https://www.twitch.tv/godot100')
+          .setURL('https://www.twitch.tv/monkecoder')
         message.channel.send(embed)
     }
 }
