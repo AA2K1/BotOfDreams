@@ -1,0 +1,14 @@
+{
+  "items": {
+    "potion": {
+      "name": "Potion",
+      "description": "It's a potion that heals you. Nothing unusual.",
+      "price": 10
+    },
+    "testItem:" : {
+      "name": "Test Item",
+      "description": "Just a test.",
+      "price": 1
+    }
+  }
+}

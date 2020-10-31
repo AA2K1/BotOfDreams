@@ -1,0 +1,7 @@
+node_modules
+.env
+coins.json
+classes.json
+xp.json
+Procfile
+todo.txt
